@@ -1,8 +1,16 @@
 // ============================================
-// COFFEE CLHOE - FUNCIONALIDAD
+// COFFEE CLHOE - FUNCIONALIDAD MEJORADA
 // ============================================
 
-// MÓVIL MENU TOGGLE
+// Remover clase loading cuando carga
+window.addEventListener('load', () => {
+    document.body.classList.remove('loading');
+});
+
+// ============================================
+// MOBILE MENU TOGGLE
+// ============================================
+
 const menuToggle = document.getElementById('menuToggle');
 const mobileMenu = document.getElementById('mobileMenu');
 const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
@@ -11,6 +19,7 @@ const navLinks = document.querySelectorAll('.nav-link');
 if (menuToggle) {
     menuToggle.addEventListener('click', () => {
         mobileMenu.classList.toggle('active');
+        menuToggle.style.opacity = mobileMenu.classList.contains('active') ? '0.6' : '1';
     });
 }
 
@@ -18,6 +27,7 @@ if (menuToggle) {
 mobileNavLinks.forEach(link => {
     link.addEventListener('click', () => {
         mobileMenu.classList.remove('active');
+        menuToggle.style.opacity = '1';
     });
 });
 
@@ -27,14 +37,13 @@ mobileNavLinks.forEach(link => {
 
 window.addEventListener('scroll', () => {
     let current = '';
-    
     const sections = document.querySelectorAll('section');
     
     sections.forEach(section => {
         const sectionTop = section.offsetTop;
         const sectionHeight = section.clientHeight;
         
-        if (scrollY >= (sectionTop - 200)) {
+        if (window.scrollY >= (sectionTop - 200)) {
             current = section.getAttribute('id');
         }
     });
@@ -67,12 +76,12 @@ navLinks.forEach(link => {
 });
 
 // ============================================
-// ANIMACIÓN DE ENTRADA PARA ELEMENTOS
+// INTERSECTION OBSERVER - ANIMACIONES AL SCROLL
 // ============================================
 
 const observerOptions = {
     threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
+    rootMargin: '0px 0px -100px 0px'
 };
 
 const observer = new IntersectionObserver((entries) => {
@@ -80,37 +89,60 @@ const observer = new IntersectionObserver((entries) => {
         if (entry.isIntersecting) {
             entry.target.style.opacity = '1';
             entry.target.style.transform = 'translateY(0)';
+            observer.unobserve(entry.target);
         }
     });
 }, observerOptions);
 
-// Observar elementos que entran
+// Observar elementos específicos
 const elementsToObserve = document.querySelectorAll(
-    '.offering-card, .social-card, .detail-item'
+    '.offering-card, .social-card, .detail-item, .about-section'
 );
 
 elementsToObserve.forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(20px)';
-    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-    observer.observe(el);
+    if (!el.style.animation) {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)';
+        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(el);
+    }
 });
 
 // ============================================
-// CARGAR PRODUCTOS DINÁMICAMENTE (PLACEHOLDER)
+// PARALLAX SCROLL EFFECT
 // ============================================
 
-// Esto será usado cuando cargues los JSON de productos
-function loadProducts() {
-    // Placeholder para cuando implementes JSON
-    console.log('Estructura lista para cargar productos desde JSON');
-}
+const heroImage = document.querySelector('.hero-image');
+
+window.addEventListener('scroll', () => {
+    if (heroImage) {
+        const scrolled = window.pageYOffset;
+        const parallaxSpeed = 0.5;
+        heroImage.style.transform = `translateY(${scrolled * parallaxSpeed}px)`;
+    }
+});
+
+// ============================================
+// SMOOTH ANIMATION AL CARGAR PÁGINA
+// ============================================
+
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('✨ Coffee Clhoe - Sitio cargado exitosamente');
+    console.log('📍 Ubicación: Calle 20 #25-104, La Ceja, Antioquia');
+    console.log('☕ Horarios: Lunes a Domingo 2:00 PM - 7:00 PM');
+    
+    // Animar elementos al cargar
+    const heroContent = document.querySelector('.hero-content');
+    if (heroContent) {
+        heroContent.style.animation = 'slideInLeft 0.8s ease forwards';
+    }
+});
 
 // ============================================
 // FUNCIONES AUXILIARES
 // ============================================
 
-// Función para hacer scroll suave a sección específica
+// Scroll a sección específica
 function scrollToSection(sectionId) {
     const section = document.getElementById(sectionId);
     if (section) {
@@ -118,27 +150,54 @@ function scrollToSection(sectionId) {
     }
 }
 
-// Función para copiar texto al clipboard (para compartir)
+// Copiar al clipboard
 function copyToClipboard(text) {
     navigator.clipboard.writeText(text);
     alert('¡Copiado al portapapeles!');
 }
 
 // ============================================
-// DETECTAR TEMA DEL SISTEMA (Para futuro dark mode)
+// LAZY LOADING DE IMÁGENES (cuando tengas fotos reales)
 // ============================================
 
-const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+if ('IntersectionObserver' in window) {
+    const imageObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const img = entry.target;
+                img.src = img.dataset.src || img.src;
+                img.classList.add('loaded');
+                imageObserver.unobserve(img);
+            }
+        });
+    });
 
-if (prefersDarkScheme.matches) {
-    // Aquí puedes agregar lógica para dark mode en el futuro
-    console.log('Sistema prefiere modo oscuro');
+    document.querySelectorAll('img[data-src]').forEach(img => {
+        imageObserver.observe(img);
+    });
 }
 
 // ============================================
-// LOG DE DESARROLLO
+// HOVER EFFECTS EN MOBILE
 // ============================================
 
-console.log('✨ Coffee Clhoe - Sitio cargado correctamente');
-console.log('📍 Ubicación: Calle 20 #25-104, La Ceja, Antioquia');
-console.log('☕ Horarios: Lunes a Domingo 2:00 PM - 7:00 PM');
+if (window.innerWidth <= 768) {
+    document.querySelectorAll('.offering-card, .social-card').forEach(card => {
+        card.addEventListener('click', () => {
+            card.style.transform = 'translateY(-12px)';
+            setTimeout(() => {
+                card.style.transform = '';
+            }, 300);
+        });
+    });
+}
+
+// ============================================
+// DETECT DARK MODE PREFERENCE
+// ============================================
+
+const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+if (prefersDarkScheme.matches) {
+    // Para futuras mejoras de dark mode
+    console.log('Sistema prefiere modo oscuro');
+}
