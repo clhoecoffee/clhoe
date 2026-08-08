@@ -11,21 +11,23 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body class="loading">
     <!-- HEADER / NAVEGACIÓN -->
     <header class="navbar">
         <div class="navbar-container">
             <div class="logo">
-                <h1>Coffee Clhoe</h1>
+                <img src="images/logo-sq.png" alt="Logo Coffee Clhoe" class="logo-image">
+                <a href="index.html" style="text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
+                    <h1>Coffee Clhoe</h1>
+                </a>
             </div>
             
             <nav class="nav-menu">
                 <a href="index.html" class="nav-link active">Inicio</a>
                 <a href="decoracion.html" class="nav-link">Decoración</a>
                 <a href="menu.html" class="nav-link">Café & Menú</a>
-                <a href="#contacto" class="nav-link">Contacto</a>
+                <a href="contacto.html" class="nav-link">Contacto</a>
             </nav>
 
             <div class="nav-icons">
@@ -41,10 +43,10 @@
 
     <!-- MENÚ MÓVIL -->
     <nav class="mobile-menu" id="mobileMenu">
-        <a href="#inicio" class="mobile-nav-link">Inicio</a>
-        <a href="#decoracion" class="mobile-nav-link">Decoración</a>
-        <a href="#cafe" class="mobile-nav-link">Café & Menú</a>
-        <a href="#contacto" class="mobile-nav-link">Contacto</a>
+        <a href="index.html" class="mobile-nav-link">Inicio</a>
+        <a href="decoracion.html" class="mobile-nav-link">Decoración</a>
+        <a href="menu.html" class="mobile-nav-link">Café & Menú</a>
+        <a href="contacto.html" class="mobile-nav-link">Contacto</a>
     </nav>
 
     <!-- SECCIÓN: INICIO -->
@@ -56,11 +58,11 @@
                 <h1 class="hero-title">Coffee Clhoe</h1>
                 <p class="hero-subtitle">Donde el buen café se encuentra con el diseño bohemio</p>
                 <div class="hero-buttons">
-                    <a href="#decoracion" class="btn btn-primary">Ver Decoración</a>
-                    <a href="#cafe" class="btn btn-secondary">Explorar Menú</a>
+                    <a href="decoracion.html" class="btn btn-primary">Ver Decoración</a>
+                    <a href="menu.html" class="btn btn-secondary">Explorar Menú</a>
                 </div>
             </div>
-            <div class="hero-image">
+            <div class="hero-image-wrapper">
                 <img src="images/cafe-lugar.jpg" alt="Interior de Coffee Clhoe - Café bohemio con plantas y decoración">
             </div>
         </div>
@@ -127,24 +129,26 @@
             <div class="location-info">
                 <h2>Dónde Nos Encuentras</h2>
                 <div class="location-details">
-                    <div class="detail-item">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <div>
-                            <h4>Dirección</h4>
-                            <p>Calle 20 #25-104, La Ceja, Antioquia</p>
+                    <div class="location-left">
+                        <div class="detail-item">
+                            <i class="fas fa-clock"></i>
+                            <div>
+                                <h4>Horarios</h4>
+                                <p>Lunes a Domingo: 2:00 PM - 7:00 PM</p>
+                                <p class="horario-nota">Horarios flexibles si hay clientes en el local</p>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div>
+                                <h4>Dirección</h4>
+                                <p>Calle 20 #25-104, La Ceja, Antioquia</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="detail-item">
-                        <i class="fas fa-clock"></i>
-                        <div>
-                            <h4>Horarios</h4>
-                            <p>Lunes a Domingo: 2:00 PM - 7:00 PM</p>
-                        </div>
+                    <div class="location-map">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15189.0681019118!2d-75.42483557117922!3d6.028113506093233!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e4691910ffd6605%3A0x88dc1cf9df0d3f5f!2sClhoe!5e1!3m2!1ses-419!2sco!4v1786079964832!5m2!1ses-419!2sco" width="100%" height="350" style="border:0; border-radius:16px;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
                     </div>
-                </div>
-                <div class="location-map">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15189.0681019118!2d-75.42483557117922!3d6.028113506093233!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e4691910ffd6605%3A0x88dc1cf9df0d3f5f!2sClhoe!5e1!3m2!1ses-419!2sco!4v1786079964832!5m2!1ses-419!2sco" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe> 
-                    </iframe>
                 </div>
             </div>
         </div>
@@ -153,56 +157,74 @@
         <div class="social-section">
             <h2>Síguenos</h2>
             <p>Descubre nuestras últimas creaciones, promos y momentos en nuestras redes</p>
-            <div class="social-links">
-                <a href="https://instagram.com/coffee_clhoe" target="_blank" class="social-card">
-                    <i class="fab fa-instagram"></i>
-                    <h4>Coffee Clhoe</h4>
-                    <p>@coffee_clhoe</p>
-                </a>
-                <a href="https://instagram.com/clhoe.laceja" target="_blank" class="social-card">
-                    <i class="fab fa-instagram"></i>
-                    <h4>Clhoe</h4>
-                    <p>@clhoe.laceja</p>
-                </a>
+            <div class="social-links-grid">
+                <div class="social-column">
+                    <a href="https://instagram.com/coffee_clhoe" target="_blank" class="social-card-compact">
+                        <i class="fab fa-instagram"></i>
+                        <div class="social-info">
+                            <h4>Coffee Clhoe</h4>
+                            <p>@coffee_clhoe</p>
+                        </div>
+                    </a>
+                    <div class="instagram-feed">
+                        <iframe src="https://www.instagram.com/coffee_clhoe/embed" width="100%" height="500" style="border-radius:16px;"></iframe>
+                    </div>
+                </div>
+                <div class="social-column">
+                    <a href="https://instagram.com/clhoe.laceja" target="_blank" class="social-card-compact">
+                        <i class="fab fa-instagram"></i>
+                        <div class="social-info">
+                            <h4>Clhoe</h4>
+                            <p>@clhoe.laceja</p>
+                        </div>
+                    </a>
+                    <div class="instagram-feed">
+                        <iframe src="https://www.instagram.com/clhoe.laceja/embed" width="100%" height="500" style="border-radius:16px;"></iframe>
+                    </div>
+                </div>
             </div>
-            <div class="instagram-feed" style="margin-top: 3rem;">
-    <iframe src="https://www.instagram.com/coffee_clhoe/embed" width="100%" height="600" style="border-radius:16px;"></iframe>
-</div>
         </div>
 
     </section>
 
-    <!-- SECCIÓN: DECORACIÓN (Placeholder) -->
-    <section id="decoracion" class="section-content">
-        <div class="section-header">
-            <h1>Decoración & Muebles</h1>
-            <p>Objetos únicos, diseño artesanal y piezas que cuentan historias</p>
-        </div>
-        <div class="placeholder-section">
-            <p>Contenido de decoración próximamente...</p>
-        </div>
+    <!-- SECCIÓN: DECORACIÓN -->
+    <section class="section-content">
+        <a href="decoracion.html" style="text-decoration: none; color: inherit;">
+            <div class="section-header section-link">
+                <h1>Decoración & Muebles</h1>
+                <p>Objetos únicos, diseño artesanal y piezas que cuentan historias</p>
+            </div>
+        </a>
+        <a href="decoracion.html" style="text-decoration: none;">
+            <div class="placeholder-section placeholder-link">
+                <p>Contenido de decoración próximamente...</p>
+            </div>
+        </a>
     </section>
 
-    <!-- SECCIÓN: CAFÉ (Placeholder) -->
-    <section id="cafe" class="section-content">
-        <div class="section-header">
-            <h1>Café & Menú</h1>
-            <p>Bebidas y comidas cuidadosamente preparadas</p>
-        </div>
-        <div class="placeholder-section">
-            <p>Menú próximamente...</p>
-        </div>
+    <!-- SECCIÓN: CAFÉ -->
+    <section class="section-content">
+        <a href="menu.html" style="text-decoration: none; color: inherit;">
+            <div class="section-header section-link">
+                <h1>Café & Menú</h1>
+                <p>Bebidas y comidas cuidadosamente preparadas</p>
+            </div>
+        </a>
+        <a href="menu.html" style="text-decoration: none;">
+            <div class="placeholder-section placeholder-link">
+                <p>Menú próximamente...</p>
+            </div>
+        </a>
     </section>
 
-    <!-- SECCIÓN: CONTACTO (Placeholder) -->
-    <section id="contacto" class="section-content">
-        <div class="section-header">
-            <h1>Contacto</h1>
-            <p>¿Preguntas o pedidos? Nos encantaría escucharte</p>
-        </div>
-        <div class="placeholder-section">
-            <p>Formulario de contacto próximamente...</p>
-        </div>
+    <!-- SECCIÓN: CONTACTO -->
+    <section class="section-content">
+        <a href="contacto.html" style="text-decoration: none; color: inherit;">
+            <div class="section-header section-link">
+                <h1>Contacto</h1>
+                <p>¿Preguntas o pedidos? Nos encantaría escucharte</p>
+            </div>
+        </a>
     </section>
 
     <!-- FOOTER -->
@@ -220,18 +242,14 @@
             <div class="footer-section">
                 <h4>Síguenos</h4>
                 <div class="footer-social">
-                    <a href="https://instagram.com/coffee_clhoe" target="_blank">
+                    <a href="https://instagram.com/coffee_clhoe" target="_blank" class="social-footer-link">
                         <i class="fab fa-instagram"></i>
+                        <span>@coffee_clhoe</span>
                     </a>
-                                                <h4>@coffee_clhoe</h4>
-
-                </div>
-                <div class="footer-social"> 
-                    <a href="https://instagram.com/clhoe.laceja" target="_blank">
+                    <a href="https://instagram.com/clhoe.laceja" target="_blank" class="social-footer-link">
                         <i class="fab fa-instagram"></i>
+                        <span>@clhoe.laceja</span>
                     </a>
-                                                <h4>@clhoe.laceja</h4>                        
-
                 </div>
             </div>
         </div>
@@ -240,6 +258,6 @@
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="js/script.js"></script>
 </body>
 </html>
