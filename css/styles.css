@@ -16,8 +16,8 @@
     --soft-green: #C8D5B7;
     
     /* Colores neutralos */
-    --cream: #F5E6D3;
-    --off-white: #FAFAF8;
+    --cream: #f2efc3;
+    --off-white: #FAF7F2;
     --white: #FFFFFF;
     --dark-text: #2C2C2C;
     --light-text: #666666;
@@ -26,6 +26,7 @@
     /* Acentos */
     --accent-warm: #D4A574;
     --accent-cool: #6B8E6F;
+    --accent-orange: #db5c18
     
     /* Espaciado */
     --spacing-xs: 0.5rem;
@@ -178,7 +179,7 @@ img {
 
 .logo h1 {
     font-size: 1.6rem;
-    background: linear-gradient(135deg, var(--coffee-dark), var(--sage-green));
+    background: linear-gradient(135deg, #db5c18, #d33900);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -209,8 +210,8 @@ img {
     left: 0;
     width: 0;
     height: 3px;
-    background: linear-gradient(90deg, var(--sage-green), var(--accent-warm));
-    transition: width 0.3s ease;
+   background: #db5c18;
+   transition: width 0.3s ease;
 }
 
 .nav-link:hover::after,
