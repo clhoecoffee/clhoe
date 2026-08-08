@@ -1057,3 +1057,217 @@ img {
     opacity: 0;
     animation: fadeInUp 0.8s ease forwards;
 }
+
+
+/* ============================================
+   ESTILOS ADICIONALES PARA LOS CAMBIOS
+   ============================================ */
+
+/* LOGO EN NAVBAR */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.logo-image {
+    width: 45px;
+    height: 45px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.logo h1 {
+    margin: 0;
+}
+
+/* HERO IMAGE WRAPPER - Flotante con esquinas redondeadas */
+.hero-image-wrapper {
+    position: relative;
+    min-height: 500px;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: var(--shadow-xl);
+    animation: slideInRight 0.8s ease forwards;
+}
+
+.hero-image-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(212, 165, 116, 0.2), rgba(200, 213, 183, 0.1));
+    z-index: 5;
+    pointer-events: none;
+}
+
+.hero-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    animation: float 6s ease-in-out infinite;
+}
+
+/* LOCATION DETAILS - Grid de 2 columnas */
+.location-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-xxl);
+}
+
+.location-left {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+}
+
+.location-map {
+    min-height: 350px;
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    z-index: 2;
+}
+
+/* SOCIAL LINKS GRID - 2 columnas para Instagram feeds */
+.social-links-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-lg);
+    margin-top: var(--spacing-lg);
+}
+
+.social-column {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+/* SOCIAL CARD COMPACT - Estilo de línea horizontal */
+.social-card-compact {
+    background: white;
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    box-shadow: var(--shadow-md);
+    text-decoration: none;
+    color: inherit;
+}
+
+.social-card-compact:hover {
+    border-color: #E1306C;
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+.social-card-compact i {
+    font-size: 1.8rem;
+    color: #E1306C;
+    min-width: 30px;
+}
+
+.social-info {
+    flex: 1;
+}
+
+.social-info h4 {
+    color: var(--coffee-dark);
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+}
+
+.social-info p {
+    font-size: 0.85rem;
+    color: var(--light-text);
+}
+
+/* INSTAGRAM FEED */
+.instagram-feed {
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+}
+
+/* SECTION LINK - Cursor pointer y hover effect */
+.section-link {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.section-link:hover h1,
+.section-link:hover p {
+    color: var(--sage-green);
+}
+
+/* PLACEHOLDER LINK - Interactive */
+.placeholder-link {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: linear-gradient(135deg, var(--cream) 0%, var(--off-white) 100%);
+}
+
+.placeholder-link:hover {
+    background: linear-gradient(135deg, var(--off-white) 0%, var(--cream) 100%);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+}
+
+/* FOOTER SOCIAL LINK - Estilo mejorado */
+.social-footer-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--accent-warm);
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    padding: 0.5rem;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.social-footer-link:hover {
+    color: white;
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateX(4px);
+}
+
+.social-footer-link i {
+    font-size: 1.2rem;
+}
+
+.social-footer-link span {
+    font-weight: 600;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+    .social-links-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .location-details {
+        grid-template-columns: 1fr;
+    }
+
+    .logo-image {
+        width: 40px;
+        height: 40px;
+    }
+
+    .social-links-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-image-wrapper {
+        min-height: 350px;
+    }
+}
