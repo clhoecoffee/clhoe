@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Decoración & Muebles - Coffee Clhoe">
+    <title>Decoración & Muebles - Coffee Clhoe</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="loading">
+
+    <!-- HEADER / NAVEGACIÓN (igual que index.html) -->
+    <header class="navbar">
+        <div class="navbar-container">
+            <div class="logo">
+                <a href="index.html" style="text-decoration: none;">
+                    <h1>Coffee Clhoe</h1>
+                </a>
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="index.html" class="nav-link">Inicio</a>
+                <a href="decoracion.html" class="nav-link active">Decoración</a>
+                <a href="menu.html" class="nav-link">Café & Menú</a>
+                <a href="contacto.html" class="nav-link">Contacto</a>
+            </nav>
+
+            <div class="nav-icons">
+                <a href="https://wa.me/573024601382" class="whatsapp-icon" title="Chat por WhatsApp">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MENÚ MÓVIL -->
+    <nav class="mobile-menu" id="mobileMenu">
+        <a href="index.html" class="mobile-nav-link">Inicio</a>
+        <a href="decoracion.html" class="mobile-nav-link">Decoración</a>
+        <a href="menu.html" class="mobile-nav-link">Café & Menú</a>
+        <a href="contacto.html" class="mobile-nav-link">Contacto</a>
+    </nav>
+
+    <!-- SECCIÓN: DECORACIÓN -->
+    <section class="section-content" style="min-height: auto;">
+        <div class="section-header">
+            <h1>Decoración & Muebles</h1>
+            <p>Objetos únicos, diseño artesanal y piezas que cuentan historias</p>
+        </div>
+
+        <!-- FILTROS (opcional por ahora) -->
+        <div class="filters" style="text-align: center; margin-bottom: 3rem;">
+            <button class="filter-btn active" data-filter="all">Todos</button>
+            <button class="filter-btn" data-filter="muebles">Muebles</button>
+            <button class="filter-btn" data-filter="decoracion">Decoración</button>
+            <button class="filter-btn" data-filter="lamparas">Lámparas</button>
+        </div>
+
+        <!-- GRID DE PRODUCTOS -->
+        <div class="products-grid" id="productsGrid">
+            <!-- Los productos se cargarán aquí dinámicamente -->
+            <div class="empty-state">
+                <i class="fas fa-inbox" style="font-size: 3rem; color: var(--sage-green); margin-bottom: 1rem;"></i>
+                <p>Los productos aparecerán aquí pronto</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER (igual que index.html) -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Coffee Clhoe</h4>
+                <p>Café de especialidad & Decoración Bohemia</p>
+            </div>
+            <div class="footer-section">
+                <h4>Contacto</h4>
+                <p>📞 Coffee: 301 110 21 18</p>
+                <p>📞 Clhoe: 302 460 13 82</p>
+            </div>
+            <div class="footer-section">
+                <h4>Síguenos</h4>
+                <div class="footer-social">
+                    <a href="https://instagram.com/coffee_clhoe" target="_blank">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://instagram.com/clhoe.laceja" target="_blank">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Coffee Clhoe. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script>
+        // Aquí irá el código para cargar productos desde JSON
+        // Por ahora está vacío (placeholder)
+    </script>
+</body>
+</html>
