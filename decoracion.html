@@ -3,21 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Decoración & Muebles - Coffee Clhoe">
     <title>Decoración & Muebles - Coffee Clhoe</title>
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body class="loading">
 
-    <!-- HEADER / NAVEGACIÓN (igual que index.html) -->
     <header class="navbar">
         <div class="navbar-container">
             <div class="logo">
-                <a href="index.html" style="text-decoration: none;">
+                <img src="images/logo-sq.png" alt="Logo Coffee Clhoe" class="logo-image">
+                <a href="index.html" style="text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
                     <h1>Coffee Clhoe</h1>
                 </a>
             </div>
@@ -26,11 +25,11 @@
                 <a href="index.html" class="nav-link">Inicio</a>
                 <a href="decoracion.html" class="nav-link active">Decoración</a>
                 <a href="menu.html" class="nav-link">Café & Menú</a>
-                <a href="#contacto" class="nav-link">Contacto</a>
+                <a href="contacto.html" class="nav-link">Contacto</a>
             </nav>
 
             <div class="nav-icons">
-                <a href="https://wa.me/573024601382" class="whatsapp-icon" title="Chat por WhatsApp">
+                <a href="https://wa.me/573024601382" class="whatsapp-icon">
                     <i class="fab fa-whatsapp"></i>
                 </a>
                 <button class="menu-toggle" id="menuToggle">
@@ -40,7 +39,6 @@
         </div>
     </header>
 
-    <!-- MENÚ MÓVIL -->
     <nav class="mobile-menu" id="mobileMenu">
         <a href="index.html" class="mobile-nav-link">Inicio</a>
         <a href="decoracion.html" class="mobile-nav-link">Decoración</a>
@@ -48,32 +46,28 @@
         <a href="contacto.html" class="mobile-nav-link">Contacto</a>
     </nav>
 
-    <!-- SECCIÓN: DECORACIÓN -->
-    <section class="section-content" style="min-height: auto;">
+    <section class="section-content">
         <div class="section-header">
             <h1>Decoración & Muebles</h1>
             <p>Objetos únicos, diseño artesanal y piezas que cuentan historias</p>
         </div>
 
-        <!-- FILTROS (opcional por ahora) -->
-        <div class="filters" style="text-align: center; margin-bottom: 3rem;">
-            <button class="filter-btn active" data-filter="all">Todos</button>
-            <button class="filter-btn" data-filter="muebles">Muebles</button>
-            <button class="filter-btn" data-filter="decoracion">Decoración</button>
-            <button class="filter-btn" data-filter="lamparas">Lámparas</button>
-        </div>
-
         <!-- GRID DE PRODUCTOS -->
         <div class="products-grid" id="productsGrid">
-            <!-- Los productos se cargarán aquí dinámicamente -->
-            <div class="empty-state">
-                <i class="fas fa-inbox" style="font-size: 3rem; color: var(--sage-green); margin-bottom: 1rem;"></i>
-                <p>Los productos aparecerán aquí pronto</p>
-            </div>
+            <!-- Cargará dinámicamente desde JSON -->
         </div>
     </section>
 
-    <!-- FOOTER (igual que index.html) -->
+    <!-- MODAL PARA VISTA DETALLADA -->
+    <div class="product-modal" id="productModal">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">
+                <i class="fas fa-times"></i>
+            </button>
+            <img id="modalImage" src="" alt="Producto">
+        </div>
+    </div>
+
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-section">
@@ -88,11 +82,13 @@
             <div class="footer-section">
                 <h4>Síguenos</h4>
                 <div class="footer-social">
-                    <a href="https://instagram.com/coffee_clhoe" target="_blank">
+                    <a href="https://instagram.com/coffee_clhoe" target="_blank" class="social-footer-link">
                         <i class="fab fa-instagram"></i>
+                        <span>@coffee_clhoe</span>
                     </a>
-                    <a href="https://instagram.com/clhoe.laceja" target="_blank">
+                    <a href="https://instagram.com/clhoe.laceja" target="_blank" class="social-footer-link">
                         <i class="fab fa-instagram"></i>
+                        <span>@clhoe.laceja</span>
                     </a>
                 </div>
             </div>
@@ -104,8 +100,47 @@
 
     <script src="js/script.js"></script>
     <script>
-        // Aquí irá el código para cargar productos desde JSON
-        // Por ahora está vacío (placeholder)
+        // Cargar productos desde JSON
+        fetch('data/productos.json')
+            .then(response => response.json())
+            .then(data => {
+                const grid = document.getElementById('productsGrid');
+                grid.innerHTML = '';
+                
+                data.muebles.forEach(producto => {
+                    const card = document.createElement('div');
+                    card.className = 'product-card';
+                    card.innerHTML = `
+                        <div class="product-image-wrapper">
+                            <img src="${producto.image}" alt="Producto ${producto.id}" class="product-image">
+                        </div>
+                    `;
+                    
+                    card.addEventListener('click', () => {
+                        openModal(producto.image);
+                    });
+                    
+                    grid.appendChild(card);
+                });
+            })
+            .catch(error => console.error('Error loading products:', error));
+
+        function openModal(imageSrc) {
+            const modal = document.getElementById('productModal');
+            const modalImage = document.getElementById('modalImage');
+            modalImage.src = imageSrc;
+            modal.classList.add('active');
+        }
+
+        document.getElementById('modalClose').addEventListener('click', () => {
+            document.getElementById('productModal').classList.remove('active');
+        });
+
+        document.getElementById('productModal').addEventListener('click', (e) => {
+            if (e.target.id === 'productModal') {
+                document.getElementById('productModal').classList.remove('active');
+            }
+        });
     </script>
 </body>
 </html>
