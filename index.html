@@ -13,217 +13,205 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
 </head>
 <body class="loading">
-    <!-- HEADER / NAVEGACIÓN -->
+
+    <!-- HEADER -->
     <header class="navbar">
         <div class="navbar-container">
-            <div class="logo">
+            <a href="index.html" class="logo-link">
                 <img src="images/logo-sq.png" alt="Logo Coffee Clhoe" class="logo-image">
-                <a href="index.html" style="text-decoration: none; display: flex; align-items: center; gap: 0.5rem;">
-                    <h1>Coffee Clhoe</h1>
-                </a>
-            </div>
-            
+                <h1 class="logo-text">Coffee Clhoe</h1>
+            </a>
             <nav class="nav-menu">
                 <a href="index.html" class="nav-link active">Inicio</a>
                 <a href="decoracion.html" class="nav-link">Decoración</a>
                 <a href="menu.html" class="nav-link">Café & Menú</a>
                 <a href="contacto.html" class="nav-link">Contacto</a>
             </nav>
-
             <div class="nav-icons">
-                <a href="https://wa.me/573011102118" class="whatsapp-icon" title="Chat por WhatsApp">
+                <a href="https://wa.me/573011102118" class="whatsapp-icon" title="WhatsApp">
                     <i class="fab fa-whatsapp"></i>
                 </a>
-                <button class="menu-toggle" id="menuToggle">
+                <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">
                     <i class="fas fa-bars"></i>
                 </button>
             </div>
         </div>
+        <nav class="mobile-menu" id="mobileMenu">
+            <a href="index.html" class="mobile-nav-link">Inicio</a>
+            <a href="decoracion.html" class="mobile-nav-link">Decoración</a>
+            <a href="menu.html" class="mobile-nav-link">Café & Menú</a>
+            <a href="contacto.html" class="mobile-nav-link">Contacto</a>
+        </nav>
     </header>
 
-    <!-- MENÚ MÓVIL -->
-    <nav class="mobile-menu" id="mobileMenu">
-        <a href="index.html" class="mobile-nav-link">Inicio</a>
-        <a href="decoracion.html" class="mobile-nav-link">Decoración</a>
-        <a href="menu.html" class="mobile-nav-link">Café & Menú</a>
-        <a href="contacto.html" class="mobile-nav-link">Contacto</a>
-    </nav>
-
-    <!-- SECCIÓN: INICIO -->
-    <section id="inicio" class="section-inicio">
-        
-        <!-- HERO SECTION -->
-        <div class="hero">
-            <div class="hero-content">
-                <h1 class="hero-title">Coffee Clhoe</h1>
-                <p class="hero-subtitle">Donde el buen café se encuentra con el diseño bohemio</p>
-                <div class="hero-buttons">
-                    <a href="decoracion.html" class="btn btn-primary">Ver Decoración</a>
-                    <a href="menu.html" class="btn btn-secondary">Explorar Menú</a>
-                </div>
-            </div>
-            <div class="hero-image-wrapper">
-                <img src="images/cafe-lugar.jpg" alt="Interior de Coffee Clhoe - Café bohemio con plantas y decoración">
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Coffee Clhoe</h1>
+            <p class="hero-subtitle">Donde el buen café se encuentra con el diseño bohemio</p>
+            <div class="hero-buttons">
+                <a href="decoracion.html" class="btn btn-primary">Ver Decoración</a>
+                <a href="menu.html" class="btn btn-secondary">Explorar Menú</a>
             </div>
         </div>
-
-        <!-- QUIÉNES SOMOS -->
-        <div class="about-section">
-            <div class="about-content">
-                <h2>Quiénes Somos</h2>
-                <p>
-                    Somos un equipo que comenzó en 2025 con la visión de crear un espacio único en la región: 
-                    un lugar donde la decoración bohemia, el diseño artesanal y el café de especialidad convergen. 
-                    Lo que comenzó como una tienda de decoración se transformó en un refugio donde nuestros clientes 
-                    pueden disfrutar de un momento agradable rodeados de objetos cuidadosamente seleccionados.
-                </p>
-            </div>
-            <div class="about-image">
-                <img src="images/cafe-lugar.jpg" alt="Ambiente interior de Coffee Clhoe">
-            </div>
+        <div class="hero-image-wrapper">
+            <img src="images/cafe-lugar.jpg" alt="Interior de Coffee Clhoe">
         </div>
-
-        <!-- LO QUE OFRECEMOS -->
-        <div class="offerings-section">
-            <h2>Lo Que Ofrecemos</h2>
-            <div class="offerings-grid">
-                
-                <div class="offering-card">
-                    <div class="offering-icon">
-                        <i class="fas fa-couch"></i>
-                    </div>
-                    <h3>Decoración & Muebles</h3>
-                    <p>
-                        Piezas únicas diseñadas en acero y madera. Mesas, sillas, mesas de noche, lámparas 
-                        y objetos de decoración bohemia que transforman espacios.
-                    </p>
-                </div>
-
-                <div class="offering-card">
-                    <div class="offering-icon">
-                        <i class="fas fa-mug-hot"></i>
-                    </div>
-                    <h3>Café de Especialidad</h3>
-                    <p>
-                        Café cuidadosamente seleccionado, preparado con técnica y passion. 
-                        Cada taza es una experiencia única.
-                    </p>
-                </div>
-
-                <div class="offering-card">
-                    <div class="offering-icon">
-                        <i class="fas fa-bread-slice"></i>
-                    </div>
-                    <h3>Panadería & Repostería</h3>
-                    <p>
-                        Productos caseros y deliciosos. Panes, croissants, tortas y postres hechos 
-                        con ingredientes de calidad.
-                    </p>
-                </div>
-
-            </div>
-        </div>
-
-        <!-- UBICACIÓN & HORARIOS -->
-        <div class="location-section">
-            <div class="location-info">
-                <h2>Dónde Nos Encuentras</h2>
-                <div class="location-details">
-                    <div class="location-left">
-                        <div class="detail-item">
-                            <i class="fas fa-clock"></i>
-                            <div>
-                                <h4>Horarios</h4>
-                                <p>Lunes a Domingo: 2:00 PM - 7:00 PM</p>
-                            </div>
-                        </div>
-                        <div class="detail-item">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <div>
-                                <h4>Dirección</h4>
-                                <p>Calle 20 #25-104, La Ceja, Antioquia</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="location-map">
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15189.0681019118!2d-75.42483557117922!3d6.028113506093233!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e4691910ffd6605%3A0x88dc1cf9df0d3f5f!2sClhoe!5e1!3m2!1ses-419!2sco!4v1786079964832!5m2!1ses-419!2sco" width="100%" height="350" style="border:0; border-radius:16px;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- REDES SOCIALES -->
-        <div class="social-section">
-            <h2>Síguenos</h2>
-            <p>Descubre nuestras últimas creaciones, promos y momentos en nuestras redes</p>
-            <div class="social-links-grid">
-                <div class="social-column">
-                    <a href="https://instagram.com/coffee_clhoe" target="_blank" class="social-card-compact">
-                        <i class="fab fa-instagram"></i>
-                        <div class="social-info">
-                            <h4>Coffee Clhoe</h4>
-                            <p>@coffee_clhoe</p>
-                        </div>
-                    </a>
-                    <div class="instagram-feed">
-                        <iframe src="https://www.instagram.com/coffee_clhoe/embed" width="100%" height="500" style="border-radius:16px;"></iframe>
-                    </div>
-                </div>
-                <div class="social-column">
-                    <a href="https://instagram.com/clhoe.laceja" target="_blank" class="social-card-compact">
-                        <i class="fab fa-instagram"></i>
-                        <div class="social-info">
-                            <h4>Almacén Clhoe</h4>
-                            <p>@clhoe.laceja</p>
-                        </div>
-                    </a>
-                    <div class="instagram-feed">
-                        <iframe src="https://www.instagram.com/clhoe.laceja/embed" width="100%" height="500" style="border-radius:16px;"></iframe>
-                    </div>
-                </div>
-            </div>
-        </div>
-
     </section>
 
-    <!-- SECCIÓN: DECORACIÓN -->
+    <!-- QUIÉNES SOMOS -->
+    <div class="about-section">
+        <div class="about-overlay">
+            <div class="about-text-box">
+                <h2>Quiénes Somos</h2>
+                <p>Somos un equipo que comenzó en 2025 con la visión de crear un espacio único en la región: un lugar donde la decoración bohemia, el diseño artesanal y el café de especialidad convergen. Lo que comenzó como una tienda de decoración se transformó en un refugio donde nuestros clientes pueden disfrutar de un momento agradable rodeados de objetos cuidadosamente seleccionados.</p>
+            </div>
+        </div>
+        <img src="images/cafe-lugar.jpg" alt="Ambiente de Coffee Clhoe" class="about-bg">
+    </div>
+
+    <!-- LO QUE OFRECEMOS -->
+    <div class="offerings-section">
+        <h2>Lo Que Ofrecemos</h2>
+        <div class="offerings-grid">
+            <div class="offering-card">
+                <div class="offering-icon"><i class="fas fa-bread-slice"></i></div>
+                <h3>Panadería & Repostería</h3>
+                <p>Panes, croissants, tortas y postres elaborados con ingredientes de calidad.</p>
+            </div>
+            <div class="offering-card">
+                <div class="offering-icon"><i class="fas fa-mug-hot"></i></div>
+                <h3>Café de Especialidad</h3>
+                <p>Café cuidadosamente seleccionado, preparado con técnica y pasión. Cada taza es una experiencia única.</p>
+            </div>
+            <div class="offering-card">
+                <div class="offering-icon"><i class="fas fa-leaf"></i></div>
+                <h3>Decoración</h3>
+                <p>Objetos únicos y piezas artesanales que transforman espacios con estilo bohemio.</p>
+            </div>
+            <div class="offering-card">
+                <div class="offering-icon"><i class="fas fa-drafting-compass"></i></div>
+                <h3>Muebles</h3>
+                <p>Diseñamos y fabricamos muebles a la medida y al gusto del cliente. Tu espacio, nuestra inspiración.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- UBICACIÓN -->
+    <div class="location-section">
+        <div class="location-info">
+            <h2>Dónde Nos Encuentras</h2>
+            <div class="location-details">
+                <div class="location-left">
+                    <div class="detail-item">
+                        <i class="fas fa-clock"></i>
+                        <div>
+                            <h4>Horarios</h4>
+                            <p>Lunes a Domingo: 2:00 PM – 7:00 PM</p>
+                            <p class="horario-nota">Horarios flexibles si hay clientes en el local</p>
+                        </div>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h4>Dirección</h4>
+                            <p>Calle 20 #25-104, La Ceja, Antioquia</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="location-map">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15189.0681019118!2d-75.42483557117922!3d6.028113506093233!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e4691910ffd6605%3A0x88dc1cf9df0d3f5f!2sClhoe!5e1!3m2!1ses-419!2sco!4v1786079964832!5m2!1ses-419!2sco" width="100%" height="100%" style="border:0; border-radius:12px;" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SÍGUENOS -->
+    <div class="social-section">
+        <h2>Síguenos</h2>
+        <p>Descubre nuestras últimas creaciones, promos y momentos en nuestras redes</p>
+        <div class="social-links-grid">
+            <div class="social-column">
+                <a href="https://instagram.com/coffee_clhoe" target="_blank" class="social-card-compact">
+                    <i class="fab fa-instagram"></i>
+                    <div class="social-info">
+                        <h4>Coffee Clhoe</h4>
+                        <p>@coffee_clhoe</p>
+                    </div>
+                </a>
+                <div class="instagram-feed">
+                    <iframe src="https://www.instagram.com/coffee_clhoe/embed" scrolling="no"></iframe>
+                </div>
+            </div>
+            <div class="social-column">
+                <a href="https://instagram.com/clhoe.laceja" target="_blank" class="social-card-compact">
+                    <i class="fab fa-instagram"></i>
+                    <div class="social-info">
+                        <h4>Almacén Clhoe</h4>
+                        <p>@clhoe.laceja</p>
+                    </div>
+                </a>
+                <div class="instagram-feed">
+                    <iframe src="https://www.instagram.com/clhoe.laceja/embed" scrolling="no"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DECORACIÓN PREVIEW -->
     <section class="section-content">
-        <a href="decoracion.html" style="text-decoration: none; color: inherit;">
-            <div class="section-header section-link">
+        <a href="decoracion.html" class="section-link-block">
+            <div class="section-header">
                 <h1>Decoración & Muebles</h1>
                 <p>Objetos únicos, diseño artesanal y piezas que cuentan historias</p>
             </div>
-        </a>
-        <a href="decoracion.html" style="text-decoration: none;">
-            <div class="placeholder-section placeholder-link">
-                <p>Contenido de decoración próximamente...</p>
+            <div class="preview-block">
+                <p>Ver catálogo completo →</p>
             </div>
         </a>
     </section>
 
-    <!-- SECCIÓN: CAFÉ -->
+    <!-- CAFÉ PREVIEW -->
     <section class="section-content">
-        <a href="menu.html" style="text-decoration: none; color: inherit;">
-            <div class="section-header section-link">
+        <a href="menu.html" class="section-link-block">
+            <div class="section-header">
                 <h1>Café & Menú</h1>
                 <p>Bebidas y comidas cuidadosamente preparadas</p>
             </div>
-        </a>
-        <a href="menu.html" style="text-decoration: none;">
-            <div class="placeholder-section placeholder-link">
-                <p>Menú próximamente...</p>
+            <div class="preview-block">
+                <p>Ver menú completo →</p>
             </div>
         </a>
     </section>
 
-    <!-- SECCIÓN: CONTACTO -->
+    <!-- CONTACTO -->
     <section class="section-content">
-        <a href="contacto.html" style="text-decoration: none; color: inherit;">
-            <div class="section-header section-link">
-                <h1>Contacto</h1>
-                <p>¿Preguntas o pedidos? Nos encantaría escucharte</p>
-            </div>
-        </a>
+        <div class="section-header">
+            <h1>Contacto</h1>
+            <p>¿Preguntas o pedidos? Escríbenos directamente</p>
+        </div>
+        <div class="contact-whatsapp-grid">
+            <a href="https://wa.me/573011102118" target="_blank" class="whatsapp-contact-btn">
+                <div class="whatsapp-btn-logo">
+                    <img src="images/logo-sq.png" alt="Coffee Clhoe">
+                    <span class="wa-badge"><i class="fab fa-whatsapp"></i></span>
+                </div>
+                <div class="whatsapp-btn-info">
+                    <h4>Coffee Clhoe</h4>
+                    <p>Pedidos de café y repostería</p>
+                </div>
+            </a>
+            <a href="https://wa.me/573024601382" target="_blank" class="whatsapp-contact-btn">
+                <div class="whatsapp-btn-logo">
+                    <img src="images/logo-clhoe.jpg" alt="Almacén Clhoe">
+                    <span class="wa-badge"><i class="fab fa-whatsapp"></i></span>
+                </div>
+                <div class="whatsapp-btn-info">
+                    <h4>Almacén Clhoe</h4>
+                    <p>Muebles y decoración</p>
+                </div>
+            </a>
+        </div>
     </section>
 
     <!-- FOOTER -->
@@ -237,6 +225,16 @@
                 <h4>Contacto</h4>
                 <p>📞 Coffee: 301 110 21 18</p>
                 <p>📞 Clhoe: 302 460 13 82</p>
+            </div>
+            <div class="footer-section">
+                <h4>Horarios</h4>
+                <p>Lunes a Domingo</p>
+                <p>2:00 PM – 7:00 PM</p>
+            </div>
+            <div class="footer-section">
+                <h4>Dirección</h4>
+                <p>Calle 20 #25-104</p>
+                <p>La Ceja, Antioquia</p>
             </div>
             <div class="footer-section">
                 <h4>Síguenos</h4>
