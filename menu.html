@@ -13,31 +13,34 @@
 </head>
 <body class="loading">
 
-    <!-- HEADER / NAVEGACIÓN -->
+    <!-- HEADER -->
     <header class="navbar">
         <div class="navbar-container">
-            <div class="logo">
-                <a href="index.html" style="text-decoration: none;">
-                    <h1>Coffee Clhoe</h1>
-                </a>
-            </div>
-            
+            <a href="index.html" class="logo-link">
+                <img src="images/logo-sq.png" alt="Logo Coffee Clhoe" class="logo-image">
+                <h1 class="logo-text">Coffee Clhoe</h1>
+            </a>
             <nav class="nav-menu">
                 <a href="index.html" class="nav-link">Inicio</a>
                 <a href="decoracion.html" class="nav-link">Decoración</a>
                 <a href="menu.html" class="nav-link active">Café & Menú</a>
-                <a href="#contacto" class="nav-link">Contacto</a>
+                <a href="contacto.html" class="nav-link">Contacto</a>
             </nav>
-
             <div class="nav-icons">
-                <a href="https://wa.me/573011102118" class="whatsapp-icon" title="Chat por WhatsApp">
+                <a href="https://wa.me/573011102118" class="whatsapp-icon" title="WhatsApp">
                     <i class="fab fa-whatsapp"></i>
                 </a>
-                <button class="menu-toggle" id="menuToggle">
+                <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">
                     <i class="fas fa-bars"></i>
                 </button>
             </div>
         </div>
+        <nav class="mobile-menu" id="mobileMenu">
+            <a href="index.html" class="mobile-nav-link">Inicio</a>
+            <a href="decoracion.html" class="mobile-nav-link">Decoración</a>
+            <a href="menu.html" class="mobile-nav-link">Café & Menú</a>
+            <a href="contacto.html" class="mobile-nav-link">Contacto</a>
+        </nav>
     </header>
 
     <!-- MENÚ MÓVIL -->
@@ -61,14 +64,14 @@
     <img src="images/menu2.webp" alt="Menú Coffee Clhoe - Página 2" style="max-width: 100%; height: auto; border-radius: 16px; box-shadow: 0 16px 48px rgba(92, 61, 46, 0.15);">
 </div>
 
-        <!-- PROMOS (opcional por ahora) -->
+        <!-- PROMOS (opcional por ahora) 
         <div class="promos-section" style="margin-top: 4rem;">
             <h2 style="text-align: center; margin-bottom: 2rem;">Promos del Día</h2>
             <div class="empty-state">
                 <i class="fas fa-tag" style="font-size: 2rem; color: var(--sage-green); margin-bottom: 1rem;"></i>
                 <p>Las promos aparecerán aquí</p>
             </div>
-        </div>
+        </div> -->
 
         <!-- BOTÓN DE PEDIDO -->
         <div style="text-align: center; margin-top: 3rem; margin-bottom: 3rem;">
@@ -78,12 +81,11 @@
         </div>
     </section>
 
-    <!-- FOOTER -->
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-section">
                 <h4>Coffee Clhoe</h4>
-                <p>Café de especialidad & Decoración Bohemia</p>
+                <p>Café de especialidad & Decoración Bohemia e Industrial</p>
             </div>
             <div class="footer-section">
                 <h4>Contacto</h4>
@@ -91,13 +93,25 @@
                 <p>📞 Clhoe: 302 460 13 82</p>
             </div>
             <div class="footer-section">
+                <h4>Horarios</h4>
+                <p>Lunes a Domingo</p>
+                <p>2:00 PM – 7:00 PM</p>
+            </div>
+            <div class="footer-section">
+                <h4>Dirección</h4>
+                <p>Calle 20 #25-104</p>
+                <p>La Ceja, Antioquia</p>
+            </div>
+            <div class="footer-section">
                 <h4>Síguenos</h4>
                 <div class="footer-social">
-                    <a href="https://instagram.com/coffee_clhoe" target="_blank">
+                    <a href="https://instagram.com/coffee_clhoe" target="_blank" class="social-footer-link">
                         <i class="fab fa-instagram"></i>
+                        <span>@coffee_clhoe</span>
                     </a>
-                    <a href="https://instagram.com/clhoe.laceja" target="_blank">
+                    <a href="https://instagram.com/clhoe.laceja" target="_blank" class="social-footer-link">
                         <i class="fab fa-instagram"></i>
+                        <span>@clhoe.laceja</span>
                     </a>
                 </div>
             </div>
