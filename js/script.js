@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Load products grid
     const productsGrid = document.getElementById('productsGrid');
     if (productsGrid) {
-        fetch('data/products.json')
+        fetch('data/productos.json')
             .then(r => {
                 if (!r.ok) throw new Error('products.json not found');
                 return r.json();

@@ -613,9 +613,9 @@ img { max-width:100%; height:auto; display:block; }
     align-items:center;
     gap:0.6rem;
     color:var(--accent-warm);
-    font-size:0.92rem;
-    padding:0.5rem 0.6rem;
-    border-radius:8px;
+    font-size:1rem;
+    padding:0.6rem 0.6rem;
+    border-radius:20px;
     background:rgba(255,255,255,0.05);
     transition:all 0.3s ease;
 }
@@ -624,7 +624,7 @@ img { max-width:100%; height:auto; display:block; }
     background:rgba(255,255,255,0.15);
     transform:translateX(4px);
 }
-.social-footer-link i { font-size:1.1rem; }
+.social-footer-link i { font-size:1.7rem; }
 .social-footer-link span { font-weight:600; }
 .footer-bottom {
     text-align:center;

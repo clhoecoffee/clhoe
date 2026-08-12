@@ -3,157 +3,449 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Decoración & Muebles - Coffee Clhoe, La Ceja Antioquia">
     <title>Decoración & Muebles - Coffee Clhoe</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        /* ── PAGE LAYOUT SHIFT when panel is open ── */
+        .page-wrapper {
+            display: grid;
+            grid-template-columns: 1fr;
+            transition: grid-template-columns 0.4s cubic-bezier(0.4,0,0.2,1);
+        }
+        .page-wrapper.panel-open {
+            grid-template-columns: 1fr var(--panel-width);
+        }
+
+        /* Panel width token */
+        :root { --panel-width: 420px; }
+        @media (max-width: 900px)  { :root { --panel-width: 340px; } }
+        @media (max-width: 600px)  {
+            :root { --panel-width: 100vw; }
+            .page-wrapper.panel-open { grid-template-columns: 1fr; }
+        }
+
+        /* ── MAIN CONTENT (shrinks alongside panel) ── */
+        .main-content {
+            min-width: 0; /* allows grid child to shrink */
+            transition: all 0.4s ease;
+        }
+
+        /* ── DETAIL PANEL ── */
+        .detail-panel {
+            position: fixed;
+            top: 0; right: 0;
+            width: var(--panel-width);
+            height: 100vh;
+            background: var(--off-white);
+            box-shadow: -6px 0 40px rgba(0,0,0,0.18);
+            z-index: 500;
+            display: flex;
+            flex-direction: column;
+            transform: translateX(100%);
+            transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+            overflow: hidden;
+        }
+        .detail-panel.open { transform: translateX(0); }
+
+        /* Panel header row: title left, cotizar right */
+        .panel-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 1.4rem 1.4rem 0;
+            flex-shrink: 0;
+        }
+        .panel-title-block { flex: 1; min-width: 0; }
+        .panel-product-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--coffee-dark);
+            margin: 0 0 0.2rem;
+            line-height: 1.2;
+        }
+        .panel-product-name.hidden-field { display: none; }
+
+        /* Cotizar button */
+        .btn-cotizar {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #25D366;
+            color: white;
+            font-weight: 700;
+            font-size: 0.88rem;
+            letter-spacing: 0.5px;
+            padding: 0.6rem 1.1rem;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            white-space: nowrap;
+            flex-shrink: 0;
+            box-shadow: 0 4px 14px rgba(37,211,102,0.35);
+            transition: all 0.3s ease;
+        }
+        .btn-cotizar:hover {
+            background: #1ead4f;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37,211,102,0.45);
+            color: white;
+        }
+        .btn-cotizar i { font-size: 1.1rem; }
+
+        /* Panel close button */
+        .panel-close {
+            position: absolute;
+            top: 0.8rem; left: -48px;
+            width: 40px; height: 40px;
+            background: var(--off-white);
+            border: none;
+            border-radius: 50% 0 0 50%;
+            cursor: pointer;
+            font-size: 1.1rem;
+            color: var(--dark-text);
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: -4px 0 12px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        .panel-close:hover { background: var(--orange); color: white; }
+
+        /* Panel scrollable body */
+        .panel-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem 1.4rem 1.4rem;
+        }
+
+        /* Product image in panel */
+        .panel-image {
+            width: 100%;
+            border-radius: 12px;
+            object-fit: cover;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 1.2rem;
+            display: block;
+        }
+
+        /* Price */
+        .panel-price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--orange);
+            margin-bottom: 0.8rem;
+        }
+        .panel-price.hidden-field { display: none; }
+
+        /* Description / specs */
+        .panel-description {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: var(--light-text);
+        }
+        .panel-description.hidden-field { display: none; }
+
+        /* ── GRID ── */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 1.2rem;
+            padding: 0 var(--spacing-lg) var(--spacing-xxl);
+            transition: all 0.4s ease;
+        }
+
+        .product-card {
+            cursor: pointer;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            background: white;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        .product-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+        .product-card.active { outline: 3px solid var(--orange); }
+
+        .product-image-wrapper {
+            position: relative;
+            width: 100%;
+            padding-bottom: 100%;
+            overflow: hidden;
+            background: var(--gray);
+        }
+        .product-image {
+            position: absolute;
+            inset: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+        .product-card:hover .product-image { transform: scale(1.08); }
+
+        /* Card footer with name + price (hidden until data exists) */
+        .product-card-info {
+            padding: 0.75rem 1rem;
+            display: none; /* shown via JS when name or price exists */
+        }
+        .product-card-info.has-data { display: block; }
+        .product-card-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 0.95rem;
+            color: var(--coffee-dark);
+            font-weight: 600;
+            margin-bottom: 0.2rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .product-card-price {
+            font-size: 0.85rem;
+            color: var(--orange);
+            font-weight: 700;
+        }
+    </style>
 </head>
-<body class="loading">
+<body>
 
-    <!-- HEADER -->
-    <header class="navbar">
-        <div class="navbar-container">
-            <a href="index.html" class="logo-link">
-                <img src="images/logo-sq.png" alt="Logo Coffee Clhoe" class="logo-image">
-                <h1 class="logo-text">Coffee Clhoe</h1>
-            </a>
-            <nav class="nav-menu">
-                <a href="index.html" class="nav-link">Inicio</a>
-                <a href="decoracion.html" class="nav-link active">Decoración</a>
-                <a href="menu.html" class="nav-link">Café & Menú</a>
-                <a href="contacto.html" class="nav-link">Contacto</a>
-            </nav>
-            <div class="nav-icons">
-                <a href="https://wa.me/573011102118" class="whatsapp-icon" title="WhatsApp">
-                    <i class="fab fa-whatsapp"></i>
-                </a>
-                <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">
-                    <i class="fas fa-bars"></i>
-                </button>
-            </div>
-        </div>
-        <nav class="mobile-menu" id="mobileMenu">
-            <a href="index.html" class="mobile-nav-link">Inicio</a>
-            <a href="decoracion.html" class="mobile-nav-link">Decoración</a>
-            <a href="menu.html" class="mobile-nav-link">Café & Menú</a>
-            <a href="contacto.html" class="mobile-nav-link">Contacto</a>
-        </nav>
-    </header>
+    <!-- PAGE WRAPPER controls layout shift -->
+    <div class="page-wrapper" id="pageWrapper">
 
-    <nav class="mobile-menu" id="mobileMenu">
-        <a href="index.html" class="mobile-nav-link">Inicio</a>
-        <a href="decoracion.html" class="mobile-nav-link">Decoración</a>
-        <a href="menu.html" class="mobile-nav-link">Café & Menú</a>
-        <a href="contacto.html" class="mobile-nav-link">Contacto</a>
-    </nav>
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
 
-    <section class="section-content">
-        <div class="section-header">
-            <h1>Decoración & Muebles</h1>
-            <p>Objetos únicos, diseño artesanal y piezas que cuentan historias</p>
-        </div>
-
-        <!-- GRID DE PRODUCTOS -->
-        <div class="products-grid" id="productsGrid">
-            <!-- Cargará dinámicamente desde JSON -->
-        </div>
-    </section>
-
-    <!-- MODAL PARA VISTA DETALLADA -->
-    <div class="product-modal" id="productModal">
-        <div class="modal-content">
-            <button class="modal-close" id="modalClose">
-                <i class="fas fa-times"></i>
-            </button>
-            <img id="modalImage" src="" alt="Producto">
-        </div>
-    </div>
-
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h4>Coffee Clhoe</h4>
-                <p>Café de especialidad & Decoración Bohemia e Industrial</p>
-            </div>
-            <div class="footer-section">
-                <h4>Contacto</h4>
-                <p>📞 Coffee: 301 110 21 18</p>
-                <p>📞 Clhoe: 302 460 13 82</p>
-            </div>
-            <div class="footer-section">
-                <h4>Horarios</h4>
-                <p>Lunes a Domingo</p>
-                <p>2:00 PM – 7:00 PM</p>
-            </div>
-            <div class="footer-section">
-                <h4>Dirección</h4>
-                <p>Calle 20 #25-104</p>
-                <p>La Ceja, Antioquia</p>
-            </div>
-            <div class="footer-section">
-                <h4>Síguenos</h4>
-                <div class="footer-social">
-                    <a href="https://instagram.com/coffee_clhoe" target="_blank" class="social-footer-link">
-                        <i class="fab fa-instagram"></i>
-                        <span>@coffee_clhoe</span>
+            <header class="navbar">
+                <div class="navbar-container">
+                    <a href="index.html" class="logo-link">
+                        <img src="images/logo-sq.png" alt="Logo Coffee Clhoe" class="logo-image">
+                        <h1 class="logo-text">Coffee Clhoe</h1>
                     </a>
-                    <a href="https://instagram.com/clhoe.laceja" target="_blank" class="social-footer-link">
-                        <i class="fab fa-instagram"></i>
-                        <span>@clhoe.laceja</span>
-                    </a>
+                    <nav class="nav-menu">
+                        <a href="index.html" class="nav-link">Inicio</a>
+                        <a href="decoracion.html" class="nav-link active">Decoración</a>
+                        <a href="menu.html" class="nav-link">Café & Menú</a>
+                        <a href="contacto.html" class="nav-link">Contacto</a>
+                    </nav>
+                    <div class="nav-icons">
+                        <a href="https://wa.me/573024601382" class="whatsapp-icon" title="WhatsApp Clhoe">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                        <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">
+                            <i class="fas fa-bars"></i>
+                        </button>
+                    </div>
                 </div>
+                <nav class="mobile-menu" id="mobileMenu">
+                    <a href="index.html" class="mobile-nav-link">Inicio</a>
+                    <a href="decoracion.html" class="mobile-nav-link">Decoración</a>
+                    <a href="menu.html" class="mobile-nav-link">Café & Menú</a>
+                    <a href="contacto.html" class="mobile-nav-link">Contacto</a>
+                </nav>
+            </header>
+
+            <section class="section-content">
+                <div class="section-header">
+                    <h1>Decoración & Muebles</h1>
+                    <p>Objetos únicos, diseño artesanal y piezas que cuentan historias</p>
+                </div>
+                <div class="products-grid" id="productsGrid"></div>
+            </section>
+
+            <footer class="footer">
+                <div class="footer-content">
+                    <div class="footer-section">
+                        <h4>Coffee Clhoe</h4>
+                        <p>Café de especialidad & Decoración Bohemia</p>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Contacto</h4>
+                        <p>📞 Coffee: 301 110 21 18</p>
+                        <p>📞 Clhoe: 302 460 13 82</p>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Horarios</h4>
+                        <p>Lunes a Domingo</p>
+                        <p>2:00 PM – 7:00 PM</p>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Dirección</h4>
+                        <p>Calle 20 #25-104</p>
+                        <p>La Ceja, Antioquia</p>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Síguenos</h4>
+                        <div class="footer-social">
+                            <a href="https://instagram.com/coffee_clhoe" target="_blank" class="social-footer-link">
+                                <i class="fab fa-instagram"></i><span>@coffee_clhoe</span>
+                            </a>
+                            <a href="https://instagram.com/clhoe.laceja" target="_blank" class="social-footer-link">
+                                <i class="fab fa-instagram"></i><span>@clhoe.laceja</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2025 Coffee Clhoe. Todos los derechos reservados.</p>
+                </div>
+            </footer>
+
+        </div><!-- /main-content -->
+
+        <!-- DETAIL PANEL -->
+        <aside class="detail-panel" id="detailPanel" aria-label="Detalle del producto">
+
+            <!-- Close tab on the left edge of the panel -->
+            <button class="panel-close" id="panelClose" aria-label="Cerrar">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+
+            <!-- Panel header: name (left) + cotizar button (right) -->
+            <div class="panel-header">
+                <div class="panel-title-block">
+                    <p class="panel-product-name hidden-field" id="panelName"></p>
+                </div>
+                <a class="btn-cotizar" id="btnCotizar" href="#" target="_blank">
+                    <i class="fab fa-whatsapp"></i> Cotizar
+                </a>
             </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2025 Coffee Clhoe. Todos los derechos reservados.</p>
-        </div>
-    </footer>
+
+            <!-- Scrollable body -->
+            <div class="panel-body">
+                <img class="panel-image" id="panelImage" src="" alt="Producto">
+                <p class="panel-price hidden-field" id="panelPrice"></p>
+                <p class="panel-description hidden-field" id="panelDescription"></p>
+            </div>
+
+        </aside>
+
+    </div><!-- /page-wrapper -->
 
     <script src="js/script.js"></script>
     <script>
-        // Cargar productos desde JSON
-        fetch('data/productos.json')
-            .then(response => response.json())
-            .then(data => {
-                const grid = document.getElementById('productsGrid');
-                grid.innerHTML = '';
-                
-                data.muebles.forEach(producto => {
-                    const card = document.createElement('div');
-                    card.className = 'product-card';
-                    card.innerHTML = `
-                        <div class="product-image-wrapper">
-                            <img src="${producto.image}" alt="Producto ${producto.id}" class="product-image">
-                        </div>
-                    `;
-                    
-                    card.addEventListener('click', () => {
-                        openModal(producto.image);
-                    });
-                    
-                    grid.appendChild(card);
-                });
-            })
-            .catch(error => console.error('Error loading products:', error));
+    (function () {
+        const pageWrapper   = document.getElementById('pageWrapper');
+        const detailPanel   = document.getElementById('detailPanel');
+        const panelClose    = document.getElementById('panelClose');
+        const panelImage    = document.getElementById('panelImage');
+        const panelName     = document.getElementById('panelName');
+        const panelPrice    = document.getElementById('panelPrice');
+        const panelDesc     = document.getElementById('panelDescription');
+        const btnCotizar    = document.getElementById('btnCotizar');
+        const productsGrid  = document.getElementById('productsGrid');
 
-        function openModal(imageSrc) {
-            const modal = document.getElementById('productModal');
-            const modalImage = document.getElementById('modalImage');
-            modalImage.src = imageSrc;
-            modal.classList.add('active');
+        const PHONE_CLHOE   = '573024601382';
+        const PAGE_URL      = window.location.href.split('?')[0];
+
+        let activeCard = null;
+
+        // ── Open panel ──────────────────────────────────────
+        function openPanel(item, cardEl) {
+            // Image
+            panelImage.src = item.image;
+            panelImage.alt = item.name || 'Producto Clhoe';
+
+            // Name (hidden if empty)
+            setField(panelName, item.name);
+
+            // Price
+            const priceText = item.price
+                ? '$ ' + Number(item.price).toLocaleString('es-CO')
+                : null;
+            setField(panelPrice, priceText);
+
+            // Description
+            setField(panelDesc, item.description);
+
+            // WhatsApp cotizar link
+            const productRef = item.name
+                ? `*${item.name}*`
+                : `el producto en esta imagen: ${item.image}`;
+            const waMsg = encodeURIComponent(
+                `Hola Clhoe! 👋 Estoy viendo su catálogo en línea y me gustaría cotizar ${productRef}.\n\nPágina: ${PAGE_URL}`
+            );
+            btnCotizar.href = `https://wa.me/${PHONE_CLHOE}?text=${waMsg}`;
+
+            // Highlight active card
+            if (activeCard) activeCard.classList.remove('active');
+            activeCard = cardEl;
+            cardEl.classList.add('active');
+
+            // Open panel & shift layout
+            detailPanel.classList.add('open');
+            pageWrapper.classList.add('panel-open');
+
+            // Scroll panel to top
+            detailPanel.querySelector('.panel-body').scrollTop = 0;
         }
 
-        document.getElementById('modalClose').addEventListener('click', () => {
-            document.getElementById('productModal').classList.remove('active');
-        });
+        // ── Close panel ─────────────────────────────────────
+        function closePanel() {
+            detailPanel.classList.remove('open');
+            pageWrapper.classList.remove('panel-open');
+            if (activeCard) { activeCard.classList.remove('active'); activeCard = null; }
+        }
 
-        document.getElementById('productModal').addEventListener('click', (e) => {
-            if (e.target.id === 'productModal') {
-                document.getElementById('productModal').classList.remove('active');
+        panelClose.addEventListener('click', closePanel);
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closePanel(); });
+
+        // ── Helper: show/hide field ──────────────────────────
+        function setField(el, value) {
+            if (value) {
+                el.textContent = value;
+                el.classList.remove('hidden-field');
+            } else {
+                el.textContent = '';
+                el.classList.add('hidden-field');
             }
-        });
+        }
+
+        // ── Load products from JSON ──────────────────────────
+        fetch('data/products.json')
+            .then(r => {
+                if (!r.ok) throw new Error('products.json not found – ' + r.status);
+                return r.json();
+            })
+            .then(data => {
+                productsGrid.innerHTML = '';
+
+                data.muebles.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = 'product-card';
+
+                    // Card info footer (only shown if name or price exists)
+                    const hasInfo = item.name || item.price;
+                    const priceDisplay = item.price
+                        ? '$ ' + Number(item.price).toLocaleString('es-CO')
+                        : '';
+
+                    card.innerHTML = `
+                        <div class="product-image-wrapper">
+                            <img class="product-image"
+                                 src="${item.image}"
+                                 alt="${item.name || 'Producto'}"
+                                 loading="lazy">
+                        </div>
+                        <div class="product-card-info${hasInfo ? ' has-data' : ''}">
+                            ${item.name  ? `<p class="product-card-name">${item.name}</p>` : ''}
+                            ${item.price ? `<p class="product-card-price">${priceDisplay}</p>` : ''}
+                        </div>`;
+
+                    card.addEventListener('click', () => openPanel(item, card));
+                    productsGrid.appendChild(card);
+                });
+            })
+            .catch(err => {
+                console.error(err);
+                productsGrid.innerHTML =
+                    '<p style="grid-column:1/-1;text-align:center;padding:3rem;color:#888">No se pudieron cargar los productos.</p>';
+            });
+    })();
     </script>
 </body>
 </html>
