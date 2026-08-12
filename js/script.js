@@ -14,11 +14,9 @@ document.addEventListener('DOMContentLoaded', () => {
         menuToggle.addEventListener('click', () => {
             const isOpen = mobileMenu.classList.toggle('open');
             menuToggle.setAttribute('aria-expanded', isOpen);
-            // Switch icon
             menuToggle.querySelector('i').className = isOpen ? 'fas fa-times' : 'fas fa-bars';
         });
 
-        // Close when a link is clicked
         mobileMenu.querySelectorAll('.mobile-nav-link').forEach(link => {
             link.addEventListener('click', () => {
                 mobileMenu.classList.remove('open');
@@ -27,7 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        // Close on outside click
         document.addEventListener('click', (e) => {
             if (!menuToggle.contains(e.target) && !mobileMenu.contains(e.target)) {
                 mobileMenu.classList.remove('open');
@@ -41,16 +38,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // ----------------------------------------
     const currentPage = window.location.pathname.split('/').pop() || 'index.html';
     document.querySelectorAll('.nav-link').forEach(link => {
+        link.classList.remove('active');
         const href = link.getAttribute('href');
         if (href === currentPage || (currentPage === '' && href === 'index.html')) {
             link.classList.add('active');
-        } else {
-            link.classList.remove('active');
         }
     });
 
     // ----------------------------------------
-    // SCROLL REVEAL (Intersection Observer)
+    // SCROLL REVEAL
     // ----------------------------------------
     const revealObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -62,7 +58,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
 
-    document.querySelectorAll('.offering-card, .detail-item, .whatsapp-contact-btn, .social-card-compact').forEach(el => {
+    document.querySelectorAll(
+        '.offering-card, .detail-item, .whatsapp-contact-btn, .social-card-compact'
+    ).forEach(el => {
         el.style.opacity = '0';
         el.style.transform = 'translateY(20px)';
         el.style.transition = 'opacity 0.55s ease, transform 0.55s ease';
@@ -70,38 +68,82 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ----------------------------------------
-    // PRODUCT MODAL (decoracion.html)
+    // DECORACION PANEL
+    // Only runs if elements exist (decoracion.html)
     // ----------------------------------------
-    const modal = document.getElementById('productModal');
-    const overlay = document.getElementById('modalOverlay');
-    const modalClose = document.getElementById('modalClose');
-    const modalImg = document.getElementById('modalImage');
-
-    function openModal(src) {
-        if (!modal) return;
-        modalImg.src = src;
-        modal.classList.add('active');
-        overlay.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    }
-
-    function closeModal() {
-        if (!modal) return;
-        modal.classList.remove('active');
-        overlay.classList.remove('active');
-        document.body.style.overflow = '';
-    }
-
-    if (modalClose) modalClose.addEventListener('click', closeModal);
-    if (overlay) overlay.addEventListener('click', closeModal);
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
-
-    // Load products grid
+    const pageWrapper  = document.getElementById('pageWrapper');
+    const detailPanel  = document.getElementById('detailPanel');
+    const panelClose   = document.getElementById('panelClose');
+    const panelImage   = document.getElementById('panelImage');
+    const panelName    = document.getElementById('panelName');
+    const panelPrice   = document.getElementById('panelPrice');
+    const panelDesc    = document.getElementById('panelDescription');
+    const btnCotizar   = document.getElementById('btnCotizar');
     const productsGrid = document.getElementById('productsGrid');
+
     if (productsGrid) {
-        fetch('data/productos.json')
+
+        const PHONE_CLHOE = '573024601382';
+        const PAGE_URL    = window.location.href.split('?')[0];
+        let activeCard    = null;
+
+        function setField(el, value) {
+            if (value) {
+                el.textContent = value;
+                el.classList.remove('hidden-field');
+            } else {
+                el.textContent = '';
+                el.classList.add('hidden-field');
+            }
+        }
+
+        function openPanel(item, cardEl) {
+            panelImage.src = item.image;
+            panelImage.alt = item.name || 'Producto Clhoe';
+
+            setField(panelName, item.name || null);
+
+            const priceText = item.price
+                ? '$ ' + Number(item.price).toLocaleString('es-CO')
+                : null;
+            setField(panelPrice, priceText);
+            setField(panelDesc, item.description || null);
+
+            // WhatsApp message with product reference
+            const productRef = item.name
+                ? `*${item.name}*`
+                : `el producto en esta imagen: ${item.image}`;
+            const waMsg = encodeURIComponent(
+                `Hola Clhoe! 👋 Estoy viendo su catálogo en línea y me gustaría cotizar ${productRef}.\n\nPágina: ${PAGE_URL}`
+            );
+            btnCotizar.href = `https://wa.me/${PHONE_CLHOE}?text=${waMsg}`;
+
+            // Highlight card
+            if (activeCard) activeCard.classList.remove('active');
+            activeCard = cardEl;
+            cardEl.classList.add('active');
+
+            // Open panel and shift layout
+            detailPanel.classList.add('open');
+            pageWrapper.classList.add('panel-open');
+
+            // Reset panel scroll
+            detailPanel.querySelector('.panel-body').scrollTop = 0;
+        }
+
+        function closePanel() {
+            detailPanel.classList.remove('open');
+            pageWrapper.classList.remove('panel-open');
+            if (activeCard) { activeCard.classList.remove('active'); activeCard = null; }
+        }
+
+        if (panelClose) panelClose.addEventListener('click', closePanel);
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closePanel(); });
+
+        // Load products
+        fetch('data/products.json')
             .then(r => {
-                if (!r.ok) throw new Error('products.json not found');
+                if (!r.ok) throw new Error('products.json not found – status ' + r.status);
                 return r.json();
             })
             .then(data => {
@@ -109,17 +151,32 @@ document.addEventListener('DOMContentLoaded', () => {
                 data.muebles.forEach(item => {
                     const card = document.createElement('div');
                     card.className = 'product-card';
+
+                    const hasInfo = item.name || item.price;
+                    const priceDisplay = item.price
+                        ? '$ ' + Number(item.price).toLocaleString('es-CO')
+                        : '';
+
                     card.innerHTML = `
                         <div class="product-image-wrapper">
-                            <img class="product-image" src="${item.image}" alt="Producto ${item.id}" loading="lazy">
+                            <img class="product-image"
+                                 src="${item.image}"
+                                 alt="${item.name || 'Producto'}"
+                                 loading="lazy">
+                        </div>
+                        <div class="product-card-info${hasInfo ? ' has-data' : ''}">
+                            ${item.name  ? `<p class="product-card-name">${item.name}</p>` : ''}
+                            ${item.price ? `<p class="product-card-price">${priceDisplay}</p>` : ''}
                         </div>`;
-                    card.addEventListener('click', () => openModal(item.image));
+
+                    card.addEventListener('click', () => openPanel(item, card));
                     productsGrid.appendChild(card);
                 });
             })
             .catch(err => {
-                console.error('Error loading products:', err);
-                productsGrid.innerHTML = '<p style="text-align:center;padding:3rem;color:#888">No se pudieron cargar los productos.</p>';
+                console.error(err);
+                productsGrid.innerHTML =
+                    '<p style="grid-column:1/-1;text-align:center;padding:3rem;color:#888">No se pudieron cargar los productos.</p>';
             });
     }
 
