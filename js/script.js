@@ -1,12 +1,12 @@
 // ============================================
-// COFFEE CLHOE - script.js
+// COFFEE CLHOE - script.js (CLEAN)
 // ============================================
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    // ----------------------------------------
-    // MOBILE MENU TOGGLE
-    // ----------------------------------------
+    // ────────────────────────────────────────
+    // MOBILE MENU
+    // ────────────────────────────────────────
     const menuToggle = document.getElementById('menuToggle');
     const mobileMenu = document.getElementById('mobileMenu');
 
@@ -33,9 +33,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ----------------------------------------
-    // ACTIVE NAV LINK (based on current page)
-    // ----------------------------------------
+    // ────────────────────────────────────────
+    // ACTIVE NAV LINK
+    // ────────────────────────────────────────
     const currentPage = window.location.pathname.split('/').pop() || 'index.html';
     document.querySelectorAll('.nav-link').forEach(link => {
         link.classList.remove('active');
@@ -45,9 +45,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // ----------------------------------------
-    // SCROLL REVEAL
-    // ----------------------------------------
+    // ────────────────────────────────────────
+    // SCROLL REVEAL ANIMATIONS
+    // ────────────────────────────────────────
     const revealObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -67,26 +67,28 @@ document.addEventListener('DOMContentLoaded', () => {
         revealObserver.observe(el);
     });
 
-    // ----------------------------------------
-    // DECORACION PANEL
-    // Only runs if elements exist (decoracion.html)
-    // ----------------------------------------
-    const pageWrapper  = document.getElementById('pageWrapper');
-    const detailPanel  = document.getElementById('detailPanel');
-    const panelClose   = document.getElementById('panelClose');
-    const panelImage   = document.getElementById('panelImage');
-    const panelName    = document.getElementById('panelName');
-    const panelPrice   = document.getElementById('panelPrice');
-    const panelDesc    = document.getElementById('panelDescription');
-    const btnCotizar   = document.getElementById('btnCotizar');
+    // ────────────────────────────────────────
+    // DECORACION PAGE - DETAIL PANEL
+    // ────────────────────────────────────────
     const productsGrid = document.getElementById('productsGrid');
 
     if (productsGrid) {
+        // Only runs on decoracion.html
+        const pageWrapper  = document.getElementById('pageWrapper');
+        const detailPanel  = document.getElementById('detailPanel');
+        const panelClose   = document.getElementById('panelClose');
+        const panelOverlay = document.getElementById('panelOverlay');
+        const panelImage   = document.getElementById('panelImage');
+        const panelName    = document.getElementById('panelName');
+        const panelPrice   = document.getElementById('panelPrice');
+        const panelDesc    = document.getElementById('panelDescription');
+        const btnCotizar   = document.getElementById('btnCotizar');
 
         const PHONE_CLHOE = '573024601382';
         const PAGE_URL    = window.location.href.split('?')[0];
         let activeCard    = null;
 
+        // Helper: show/hide field based on data
         function setField(el, value) {
             if (value) {
                 el.textContent = value;
@@ -97,19 +99,25 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
+        // Open panel with product data
         function openPanel(item, cardEl) {
+            // Image
             panelImage.src = item.image;
             panelImage.alt = item.name || 'Producto Clhoe';
 
+            // Name (hidden if empty)
             setField(panelName, item.name || null);
 
+            // Price
             const priceText = item.price
                 ? '$ ' + Number(item.price).toLocaleString('es-CO')
                 : null;
             setField(panelPrice, priceText);
+
+            // Description
             setField(panelDesc, item.description || null);
 
-            // WhatsApp message with product reference
+            // WhatsApp cotizar link with product reference
             const productRef = item.name
                 ? `*${item.name}*`
                 : `el producto en esta imagen: ${item.image}`;
@@ -118,36 +126,57 @@ document.addEventListener('DOMContentLoaded', () => {
             );
             btnCotizar.href = `https://wa.me/${PHONE_CLHOE}?text=${waMsg}`;
 
-            // Highlight card
+            // Highlight active card
             if (activeCard) activeCard.classList.remove('active');
             activeCard = cardEl;
             cardEl.classList.add('active');
 
-            // Open panel and shift layout
+            // Open panel & show overlay
             detailPanel.classList.add('open');
+            panelOverlay.classList.add('active');
             pageWrapper.classList.add('panel-open');
 
-            // Reset panel scroll
+            // Reset scroll position in panel
             detailPanel.querySelector('.panel-body').scrollTop = 0;
         }
 
+        // Close panel
         function closePanel() {
             detailPanel.classList.remove('open');
+            panelOverlay.classList.remove('active');
             pageWrapper.classList.remove('panel-open');
-            if (activeCard) { activeCard.classList.remove('active'); activeCard = null; }
+            if (activeCard) {
+                activeCard.classList.remove('active');
+                activeCard = null;
+            }
         }
 
-        if (panelClose) panelClose.addEventListener('click', closePanel);
-        document.addEventListener('keydown', e => { if (e.key === 'Escape') closePanel(); });
+        // Close button click
+        if (panelClose) {
+            panelClose.addEventListener('click', closePanel);
+        }
 
-        // Load products
-        fetch('data/products.json')
+        // Escape key
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape' && detailPanel.classList.contains('open')) {
+                closePanel();
+            }
+        });
+
+        // Click outside (on overlay) closes panel
+        if (panelOverlay) {
+            panelOverlay.addEventListener('click', closePanel);
+        }
+
+        // Load products from JSON
+        fetch('data/productos.json')
             .then(r => {
                 if (!r.ok) throw new Error('products.json not found – status ' + r.status);
                 return r.json();
             })
             .then(data => {
                 productsGrid.innerHTML = '';
+
                 data.muebles.forEach(item => {
                     const card = document.createElement('div');
                     card.className = 'product-card';

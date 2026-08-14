@@ -62,5 +62,12 @@
     { "id": 60, "image": "images/muebles/Tocador1.jpg" },
     { "id": 61, "image": "images/muebles/Tocador2.jpg" },
     { "id": 62, "image": "images/muebles/Tocador3.jpg" }
+  ],
+  "info": [
+    {"name": "Buddha Escultura", "material": "Marmolina", "price": 150000, "description": "Escultura de Buda hecha de marmolina, ideal para decoración de interiores y exteriores."},
+    {"name": "Busto de Mujer", "material": "Marmolina", "price": 120000, "description": "Busto de mujer en marmolina, perfecto para agregar un toque artístico a cualquier espacio."},
+    {"name": "Caballo Escultura", "material": "Marmolina", "price": 180000, "description": "Escultura de caballo en marmolina, ideal para amantes del arte ecuestre."},
+    {"name": "Centro de Mesa", "material": "Marmolina", "price": 80000, "description": "Centro de mesa elegante hecho de marmolina, perfecto para ocasiones especiales."},
+    {"name": "Cesta Decorativa", "material": "Marmolina", "price": 60000, "description": "Cesta decorativa en marmolina, ideal para almacenar objetos pequeños con estilo."}
   ]
 }
