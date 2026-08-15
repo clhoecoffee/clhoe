@@ -81,6 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
         panelOverlay?.classList.remove('active');
         activeCard?.classList.remove('active');
         activeCard = null;
+        document.body.classList.remove('panel-open');
     };
 
     const openPanel = (item, card) => {
@@ -100,6 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
         detailPanel.classList.add('open');
         panelOverlay?.classList.add('active');
         if (panelBody) panelBody.scrollTop = 0;
+        document.body.classList.add('panel-open');
     };
 
     panelClose?.addEventListener('click', closePanel);

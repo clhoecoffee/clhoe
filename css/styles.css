@@ -27,6 +27,7 @@
     --shadow-md: 0 8px 24px rgba(92,61,46,0.12);
     --shadow-lg: 0 16px 48px rgba(92,61,46,0.15);
     --shadow-xl: 0 24px 64px rgba(92,61,46,0.2);
+    --panel-width: 420px;          /* ← NUEVO: ancho fijo del panel */
 }
 
 @keyframes fadeInUp {
@@ -60,9 +61,10 @@ body {
     color:var(--dark-text);
     background:var(--off-white);
     line-height:1.6;
-    overflow-x:hidden;           /* ← Evita scroll horizontal al abrir el panel */
+    overflow-x:hidden;
     opacity:0;
     animation:fadeIn 0.6s ease forwards;
+    transition: padding-right 0.4s cubic-bezier(0.4, 0, 0.2, 1); /* ← NUEVO: transición suave al añadir padding */
 }
 h1,h2,h3,h4,h5,h6 {
     font-family:'Playfair Display', serif;
@@ -74,7 +76,7 @@ a { text-decoration:none; transition:all 0.3s ease; }
 img { max-width:100%; height:auto; display:block; }
 
 /* ============================================
-   PAGE WRAPPER (flex container)
+   PAGE WRAPPER
    ============================================ */
 .page-wrapper {
     display: flex;
@@ -82,15 +84,21 @@ img { max-width:100%; height:auto; display:block; }
     align-items: stretch;
     min-height: 100vh;
     width: 100%;
+    transition: padding-right 0.4s cubic-bezier(0.4, 0, 0.2, 1); /* ← NUEVO */
+}
+
+/* Cuando el panel está abierto, el body tendrá la clase 'panel-open' (añadida por JS) */
+body.panel-open .page-wrapper {
+    padding-right: var(--panel-width); /* ← NUEVO: desplaza todo el contenido a la izquierda */
 }
 
 /* ============================================
-   MAIN CONTENT (se encoge automáticamente)
+   MAIN CONTENT (ya no necesita flex:1 con panel fijo)
    ============================================ */
 .main-content {
     flex: 1;
-    min-width: 0;                /* Evita desbordamientos */
-    transition: flex 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    min-width: 0;
+    /* Sin transición porque el padding lo maneja el wrapper */
 }
 
 /* ============================================
@@ -113,8 +121,6 @@ img { max-width:100%; height:auto; display:block; }
     justify-content:space-between;
     align-items:center;
 }
-
-/* Logo - entire block is clickable */
 .logo-link {
     display:flex;
     align-items:center;
@@ -140,7 +146,6 @@ img { max-width:100%; height:auto; display:block; }
     -webkit-text-fill-color:transparent;
     background-clip:text;
 }
-
 .nav-menu { display:flex; gap:2rem; align-items:center; }
 .nav-link {
     font-size:0.95rem;
@@ -160,7 +165,6 @@ img { max-width:100%; height:auto; display:block; }
 }
 .nav-link:hover, .nav-link.active { color:var(--orange); }
 .nav-link:hover::after, .nav-link.active::after { width:100%; }
-
 .nav-icons { display:flex; gap:var(--spacing-md); align-items:center; }
 .whatsapp-icon {
     font-size:1.3rem;
@@ -172,8 +176,6 @@ img { max-width:100%; height:auto; display:block; }
     transition:all 0.3s ease;
 }
 .whatsapp-icon:hover { transform:scale(1.15); background:rgba(37,211,102,0.2); }
-
-/* Hamburger - hidden on desktop */
 .menu-toggle {
     display:none;
     background:none;
@@ -187,8 +189,6 @@ img { max-width:100%; height:auto; display:block; }
     transition:background 0.3s ease;
 }
 .menu-toggle:hover { background:var(--cream); }
-
-/* Mobile dropdown - inside navbar so position:relative works */
 .mobile-menu {
     display:none;
     flex-direction:column;
@@ -212,7 +212,6 @@ img { max-width:100%; height:auto; display:block; }
     padding-left:calc(var(--spacing-md) + 6px);
     color:var(--orange);
 }
-
 @media (max-width:768px) {
     .nav-menu { display:none; }
     .menu-toggle { display:flex; }
@@ -243,7 +242,6 @@ img { max-width:100%; height:auto; display:block; }
     font-weight:300;
 }
 .hero-buttons { display:flex; gap:var(--spacing-md); flex-wrap:wrap; }
-
 .btn {
     padding:0.9rem 1.8rem;
     font-size:0.88rem;
@@ -269,18 +267,13 @@ img { max-width:100%; height:auto; display:block; }
     border:2px solid var(--coffee-dark);
 }
 .btn-secondary:hover { background:var(--coffee-dark); color:white; }
-
 .hero-image-wrapper {
     border-radius:16px;
     overflow:hidden;
     box-shadow:var(--shadow-xl);
     animation:float 6s ease-in-out infinite;
-    /*min-height:460px;*/
 }
-.hero-image-wrapper img {
-    /*width:100%;*/ height:100%; object-fit:cover;
-}
-
+.hero-image-wrapper img { height:100%; object-fit:cover; }
 @media (max-width:768px) {
     .hero { grid-template-columns:1fr; gap:var(--spacing-lg); padding:2rem var(--spacing-md); }
     .hero-image-wrapper { min-height:300px; animation:none; }
@@ -289,7 +282,7 @@ img { max-width:100%; height:auto; display:block; }
 }
 
 /* ============================================
-   QUIÉNES SOMOS (imagen de fondo)
+   QUIÉNES SOMOS
    ============================================ */
 .about-section {
     position:relative;
@@ -329,7 +322,6 @@ img { max-width:100%; height:auto; display:block; }
     margin-bottom:var(--spacing-md);
 }
 .about-text-box p { color:rgba(255,255,255,0.9); font-size:1.05rem; line-height:1.8; }
-
 @media (max-width:768px) {
     .about-overlay { padding:var(--spacing-lg); }
     .about-text-box { padding:var(--spacing-lg); }
@@ -337,7 +329,7 @@ img { max-width:100%; height:auto; display:block; }
 }
 
 /* ============================================
-   LO QUE OFRECEMOS (4 cards)
+   LO QUE OFRECEMOS
    ============================================ */
 .offerings-section {
     max-width:1400px;
@@ -422,7 +414,6 @@ img { max-width:100%; height:auto; display:block; }
     min-height:300px;
 }
 .location-map iframe { width:100%; height:100%; min-height:300px; border:0; border-radius:12px; }
-
 @media (max-width:768px) {
     .location-details { grid-template-columns:1fr; }
     .location-section { padding:var(--spacing-lg); }
@@ -487,11 +478,10 @@ img { max-width:100%; height:auto; display:block; }
     display:block;
     pointer-events:auto;
 }
-
 @media (max-width:900px) { .social-links-grid { grid-template-columns:1fr; } }
 
 /* ============================================
-   SECCIÓN PREVIEWS (Decoración / Café)
+   SECCIÓN PREVIEWS
    ============================================ */
 .section-content {
     max-width:1400px;
@@ -600,7 +590,6 @@ img { max-width:100%; height:auto; display:block; }
 }
 .whatsapp-btn-info h4 { color:var(--coffee-dark); font-size:1.1rem; margin-bottom:4px; }
 .whatsapp-btn-info p { font-size:0.9rem; color:var(--light-text); }
-
 @media (max-width:600px) { .contact-whatsapp-grid { grid-template-columns:1fr; } }
 
 /* ============================================
@@ -655,7 +644,6 @@ img { max-width:100%; height:auto; display:block; }
     color:rgba(255,255,255,0.55);
     font-size:0.88rem;
 }
-
 @media (max-width:768px) {
     .footer { padding:var(--spacing-lg); }
     .footer-content { grid-template-columns:1fr 1fr; }
@@ -665,7 +653,7 @@ img { max-width:100%; height:auto; display:block; }
 }
 
 /* ============================================
-   PRODUCTS GRID & MODAL (decoracion.html)
+   PRODUCTS GRID
    ============================================ */
 .products-grid {
     display:grid;
@@ -728,78 +716,103 @@ img { max-width:100%; height:auto; display:block; }
 /* ============================================
    DECORACION - DETAIL PANEL (CORREGIDO)
    ============================================ */
-:root{--panel-width:420px}
 
-/* Overlay: fijo, cubre toda la pantalla */
+/* --- Overlay: completamente transparente e inactivo (se elimina el oscurecimiento) --- */
 .panel-overlay {
     position: fixed;
     inset: 0;
     z-index: 499;
-    background: rgba(0, 0, 0, 0.4);
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.4s ease;
+    background: transparent;   /* ← NUEVO: sin fondo oscuro */
+    pointer-events: none;      /* ← NUEVO: no bloquea clics */
+    opacity: 1;               /* siempre visible pero transparente */
+    transition: none;
 }
-.panel-overlay.active {
-    opacity: 1;
-    pointer-events: auto;
-}
+/* No necesita clase active, simplemente siempre transparente */
 
-/* Panel lateral: ahora en el flujo, con ancho variable */
+/* --- Panel lateral fijo --- */
 .detail-panel {
-    width: 0;
-    overflow: hidden;
+    position: fixed;           /* ← NUEVO: fijo en la ventana */
+    top: 0;
+    right: 0;
+    width: 0;                 /* cerrado */
+    height: 100vh;
+    overflow: hidden;         /* oculta el contenido cuando está cerrado */
     background: var(--off-white);
     box-shadow: -6px 0 40px rgba(0, 0, 0, 0.18);
     transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
     z-index: 500;
     display: flex;
     flex-direction: column;
-    height: 100vh;              /* Ocupa toda la altura del viewport */
-    flex-shrink: 0;            /* Evita que se encoja cuando width > 0 */
+    flex-shrink: 0;
 }
 .detail-panel.open {
-    width: 420px;               /* Ancho fijo cuando está abierto */
+    width: var(--panel-width); /* ← NUEVO: ancho fijo */
 }
 
-/* El contenido interno del panel no cambia, solo se adapta al ancho */
+/* --- Encabezado del panel (Cotizar + Cerrar en fila) --- */
 .panel-header {
     display: flex;
-    align-items: flex-start;
+    align-items: center;       /* ← NUEVO: centrado vertical */
     justify-content: space-between;
-    gap: 1rem;
-    padding: 1.2rem 1.4rem;
+    gap: 0.8rem;
+    padding: 0.8rem 1.2rem;
     flex-shrink: 0;
     border-bottom: 1px solid var(--gray);
 }
 .panel-title-block {
     flex: 1;
     min-width: 0;
-    padding-top: .2rem;
+    padding-top: 0;
 }
 .panel-product-name {
     margin: 0;
     font-family: 'Playfair Display', serif;
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     font-weight: 700;
     line-height: 1.2;
     color: var(--coffee-dark);
 }
 .hidden-field { display: none !important; }
 
+/* Contenedor de acciones: ahora en fila y con los botones en orden natural */
 .panel-actions {
     display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    justify-content: flex-start;
-    gap: .55rem;
+    flex-direction: row;       /* ← NUEVO: horizontal */
+    align-items: center;
+    gap: 0.6rem;
     flex-shrink: 0;
 }
+
+/* Botón Cotizar */
+.btn-cotizar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 0.45rem 0.9rem;
+    border: none;
+    border-radius: 50px;
+    background: #25D366;
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    text-decoration: none;
+    white-space: nowrap;
+    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+    transition: all 0.3s ease;
+}
+.btn-cotizar:hover {
+    background: #1ead4f;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(37, 211, 102, 0.4);
+}
+
+/* Botón Cerrar (sin order, aparece a la derecha) */
 .panel-close {
-    order: 1;
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
     border: none;
     border-radius: 50%;
     background: var(--gray);
@@ -808,45 +821,22 @@ img { max-width:100%; height:auto; display:block; }
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1rem;
+    font-size: 0.9rem;
     box-shadow: var(--shadow-sm);
-    transition: all .3s ease;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
 }
 .panel-close:hover {
     background: var(--orange);
     color: white;
 }
-.btn-cotizar {
-    order: 2;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: .5rem;
-    padding: .6rem 1rem;
-    border: none;
-    border-radius: 50px;
-    background: #25D366;
-    color: white;
-    font-size: .88rem;
-    font-weight: 700;
-    letter-spacing: .5px;
-    text-decoration: none;
-    white-space: nowrap;
-    box-shadow: 0 4px 14px rgba(37, 211, 102, .35);
-    transition: all .3s ease;
-}
-.btn-cotizar:hover {
-    background: #1ead4f;
-    color: white;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(37, 211, 102, .45);
-}
 
+/* Cuerpo del panel (con scroll interno) */
 .panel-body {
     flex: 1;
     min-height: 0;
     overflow-y: auto;
-    padding: 1rem 1.4rem 1.4rem;
+    padding: 1rem 1.2rem 1.2rem;
 }
 .panel-image {
     display: block;
@@ -855,118 +845,40 @@ img { max-width:100%; height:auto; display:block; }
     border-radius: 12px;
     object-fit: cover;
     box-shadow: var(--shadow-md);
-    margin-bottom: 1.2rem;
+    margin-bottom: 1rem;
 }
 .panel-price {
-    margin: 0 0 .8rem;
+    margin: 0 0 0.6rem;
     color: var(--orange);
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     font-weight: 700;
 }
 .panel-description {
     margin: 0;
     color: var(--light-text);
-    font-size: .95rem;
+    font-size: 0.95rem;
     line-height: 1.7;
 }
 
-/* Ajustes para grids y cards (ya estaban) */
-.products-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 1.2rem;
-    padding: 0 var(--spacing-lg) var(--spacing-xxl);
-}
-.product-card {
-    cursor: pointer;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    background: white;
-    border-radius: 12px;
-    box-shadow: var(--shadow-md);
-    transition: transform .3s ease, box-shadow .3s ease;
-}
-.product-card:hover {
-    transform: translateY(-6px);
-    box-shadow: var(--shadow-lg);
-}
-.product-card.active {
-    outline: 3px solid var(--orange);
-    outline-offset: -3px;
-}
-.product-image-wrapper {
-    position: relative;
-    width: 100%;
-    padding-bottom: 100%;
-    overflow: hidden;
-    background: var(--gray);
-}
-.product-image {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform .4s ease;
-}
-.product-card:hover .product-image {
-    transform: scale(1.08);
-}
-.product-card-info {
-    display: none;
-    padding: .75rem 1rem;
-}
-.product-card-info.has-data {
-    display: block;
-}
-.product-card-name {
-    margin-bottom: .2rem;
-    overflow: hidden;
-    font-family: 'Playfair Display', serif;
-    font-size: .95rem;
-    font-weight: 600;
-    color: var(--coffee-dark);
-    white-space: nowrap;
-    text-overflow: ellipsis;
-}
-.product-card-price {
-    color: var(--orange);
-    font-size: .85rem;
-    font-weight: 700;
-}
-.products-error {
-    grid-column: 1/-1;
-    padding: 3rem;
-    color: var(--light-text);
-    text-align: center;
-}
-
-/* Responsive */
+/* Ajustes para pantallas pequeñas */
 @media (max-width: 900px) {
     :root { --panel-width: 340px; }
-    .detail-panel.open {
-        width: 340px;
-    }
 }
-
 @media (max-width: 768px) {
-    .contact-info-grid { grid-template-columns: 1fr; }
-    .contact-section { padding: 0 var(--spacing-md); }
-    .contact-map-wrapper { height: 360px; }
     .products-grid {
         grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
         padding: 0 var(--spacing-md) var(--spacing-xl);
     }
-    /* En móviles el panel ocupa todo el ancho */
     .detail-panel.open {
-        width: 100vw;
+        width: 100vw;          /* en móviles ocupa todo el ancho */
     }
-    .panel-header { padding: 1rem; }
-    .panel-body { padding: 1rem; }
+    .panel-header { padding: 0.6rem 0.8rem; }
+    .panel-body { padding: 0.8rem; }
+    .panel-product-name { font-size: 1rem; }
+    .btn-cotizar { font-size: 0.7rem; padding: 0.3rem 0.6rem; }
+    .panel-close { width: 28px; height: 28px; font-size: 0.8rem; }
     .preview-block { min-height: 190px; }
 }
-
 @media (max-width: 600px) {
     .contact-info-box {
         min-height: 110px;
