@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setField(panelDescription, item.description);
 
         const productRef = item.name ? `*${item.name}*` : `el producto en esta imagen: ${item.image}`;
-        const message = encodeURIComponent(`Hola Clhoe! 👋 Estoy viendo su catálogo en línea y me gustaría cotizar ${productRef}.\n\nPágina: ${PAGE_URL}`);
+        const message = encodeURIComponent(`Hola Clhoe! Estoy viendo su catálogo en línea y me gustaría cotizar ${productRef}.\n\nPágina: ${PAGE_URL}`);
         btnCotizar.href = `https://wa.me/${PHONE_CLHOE}?text=${message}`;
 
         activeCard?.classList.remove('active');
