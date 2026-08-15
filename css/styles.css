@@ -276,7 +276,7 @@ body.panel-open .page-wrapper {
 .hero-image-wrapper img { height:100%; object-fit:cover; }
 @media (max-width:768px) {
     .hero { grid-template-columns:1fr; gap:var(--spacing-lg); padding:2rem var(--spacing-md); }
-    .hero-image-wrapper { min-height:300px; animation:none; }
+    .hero-image-wrapper { /*min-height:300px;*/ animation:none; }
     .hero-buttons { flex-direction:column; }
     .btn { width:100%; text-align:center; }
 }
@@ -705,7 +705,7 @@ body.panel-open .page-wrapper {
 /* ============================================
    INDEX PREVIEW BLOCKS
    ============================================ */
-.preview-block{position:relative;min-height:220px;display:flex;align-items:center;justify-content:center;overflow:hidden;border-radius:16px;border:2px solid rgba(219,92,24,.18);background-color:var(--cream);background-position:center;background-size:cover;background-repeat:no-repeat;box-shadow:var(--shadow-sm);isolation:isolate;transition:transform .3s ease,box-shadow .3s ease}
+.preview-block{position:relative;min-height:320px;display:flex;align-items:center;justify-content:center;overflow:hidden;border-radius:16px;border:2px solid rgba(219,92,24,.18);background-color:var(--cream);background-position:center;background-size:cover;background-repeat:no-repeat;box-shadow:var(--shadow-sm);isolation:isolate;transition:transform .3s ease,box-shadow .3s ease}
 .preview-block::before{content:'';position:absolute;inset:0;z-index:-1;background:linear-gradient(rgba(44,44,44,.20),rgba(44,44,44,.38));transition:background .3s ease}
 .preview-decoracion{background-image:url('../images/deco-head.png')}
 .preview-cafe{background-image:url('../images/cafe-head.png')}
