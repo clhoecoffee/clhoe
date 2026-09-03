@@ -1,5 +1,5 @@
 // ============================================
-// COFFEE CLHOE - script.js (Optimizado)
+// COFFEE CLHOE - script.js (Masonry)
 // ============================================
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- Products Grid ---
+    // --- Products Grid con Masonry ---
     const productsGrid = document.getElementById('productsGrid');
     if (!productsGrid) return;
 
@@ -74,6 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const PHONE_CLHOE = '573024601382';
     const PAGE_URL = window.location.href.split('?')[0];
     let activeCard = null;
+    let masonryInstance = null;
 
     const setField = (element, value) => {
         element.textContent = value || '';
@@ -81,57 +82,53 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const closePanel = () => {
-    detailPanel.classList.remove('open');
-    panelOverlay?.classList.remove('active');
-    if (activeCard) {
-        activeCard.classList.remove('active');
-        activeCard = null;
-    }
-    document.body.classList.remove('panel-open');
-    // SOLO en móvil evitamos el scroll
-    if (window.innerWidth <= 768) {
-        document.body.style.overflow = '';
-    }
-};
+        detailPanel.classList.remove('open');
+        panelOverlay?.classList.remove('active');
+        if (activeCard) {
+            activeCard.classList.remove('active');
+            activeCard = null;
+        }
+        document.body.classList.remove('panel-open');
+        if (window.innerWidth <= 768) {
+            document.body.style.overflow = '';
+        }
+    };
 
-const openPanel = (item, card) => {
-    panelImage.src = item.image;
-    panelImage.alt = item.name || 'Producto Clhoe';
-    setField(panelName, item.name);
-    setField(panelPrice, item.price ? '$ ' + Number(item.price).toLocaleString('es-CO') : null);
-    setField(panelDescription, item.description);
+    const openPanel = (item, card) => {
+        panelImage.src = item.image;
+        panelImage.alt = item.name || 'Producto Clhoe';
+        setField(panelName, item.name);
+        setField(panelPrice, item.price ? '$ ' + Number(item.price).toLocaleString('es-CO') : null);
+        setField(panelDescription, item.description);
 
-    const productRef = item.name ? `*${item.name}*` : `el producto en esta imagen: ${item.image}`;
-    const message = encodeURIComponent(`Hola Clhoe! Estoy viendo su catálogo en línea y me gustaría cotizar ${productRef}.\n\nPágina: ${PAGE_URL}`);
-    btnCotizar.href = `https://wa.me/${PHONE_CLHOE}?text=${message}`;
+        const productRef = item.name ? `*${item.name}*` : `el producto en esta imagen: ${item.image}`;
+        const message = encodeURIComponent(`Hola Clhoe! Estoy viendo su catálogo en línea y me gustaría cotizar ${productRef}.\n\nPágina: ${PAGE_URL}`);
+        btnCotizar.href = `https://wa.me/${PHONE_CLHOE}?text=${message}`;
 
-    if (activeCard) activeCard.classList.remove('active');
-    activeCard = card;
-    if (activeCard) activeCard.classList.add('active');
-    
-    detailPanel.classList.add('open');
-    panelOverlay?.classList.add('active');
-    if (panelBody) panelBody.scrollTop = 0;
-    document.body.classList.add('panel-open');
-    // SOLO en móvil evitamos el scroll
-    if (window.innerWidth <= 768) {
-        document.body.style.overflow = 'hidden';
-    }
-};
+        if (activeCard) activeCard.classList.remove('active');
+        activeCard = card;
+        if (activeCard) activeCard.classList.add('active');
+        
+        detailPanel.classList.add('open');
+        panelOverlay?.classList.add('active');
+        if (panelBody) panelBody.scrollTop = 0;
+        document.body.classList.add('panel-open');
+        if (window.innerWidth <= 768) {
+            document.body.style.overflow = 'hidden';
+        }
+    };
 
-// Manejar cambio de tamaño de ventana
-window.addEventListener('resize', () => {
-    if (window.innerWidth > 768 && document.body.classList.contains('panel-open')) {
-        document.body.style.overflow = '';
-    }
-});
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 768 && document.body.classList.contains('panel-open')) {
+            document.body.style.overflow = '';
+        }
+    });
 
     panelClose?.addEventListener('click', closePanel);
     document.addEventListener('keydown', event => {
         if (event.key === 'Escape' && detailPanel.classList.contains('open')) closePanel();
     });
 
-    // Cerrar panel al hacer clic fuera (pero no en productos)
     document.addEventListener('click', event => {
         if (!detailPanel.classList.contains('open')) return;
         if (detailPanel.contains(event.target)) return;
@@ -139,7 +136,7 @@ window.addEventListener('resize', () => {
         closePanel();
     });
 
-    // --- Cargar productos ---
+    // --- Cargar productos y activar Masonry ---
     fetch('data/productos.json')
         .then(response => {
             if (!response.ok) throw new Error(`productos.json no encontrado (${response.status})`);
@@ -168,6 +165,22 @@ window.addEventListener('resize', () => {
                 card.addEventListener('click', () => openPanel(item, card));
                 productsGrid.appendChild(card);
             });
+
+            imagesLoaded(productsGrid, function() {
+                if (masonryInstance) {
+                    masonryInstance.destroy();
+                }
+                masonryInstance = new Masonry(productsGrid, {
+                    itemSelector: '.product-card',
+                    columnWidth: '.product-card',
+                    percentPosition: true,
+                    gutter: 12 // ← ahora coincide con CSS
+                });
+                setTimeout(() => {
+                    masonryInstance.layout();
+                }, 100);
+            });
+
         })
         .catch(error => {
             console.error(error);
