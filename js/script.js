@@ -1,5 +1,5 @@
 // ============================================
-// COFFEE CLHOE - script.js (Masonry)
+// COFFEE CLHOE - script.js (Masonry + Swiper + Fixes)
 // ============================================
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -64,23 +64,63 @@ document.addEventListener('DOMContentLoaded', () => {
     const panelClose = document.getElementById('panelClose');
     const panelOverlay = document.getElementById('panelOverlay');
     const panelBody = detailPanel?.querySelector('.panel-body');
-    const panelImage = document.getElementById('panelImage');
     const panelName = document.getElementById('panelName');
     const panelPrice = document.getElementById('panelPrice');
     const panelDescription = document.getElementById('panelDescription');
     const btnCotizar = document.getElementById('btnCotizar');
-    if (!detailPanel || !panelImage || !panelName || !panelPrice || !panelDescription || !btnCotizar) return;
+    
+    // Swiper elements
+    const swiperWrapper = document.getElementById('swiperWrapper');
+    const swiperContainer = document.getElementById('swiperContainer');
+    const swiperPrev = document.getElementById('swiperPrev');
+    const swiperNext = document.getElementById('swiperNext');
+    
+    if (!detailPanel || !panelName || !panelPrice || !panelDescription || !btnCotizar) return;
 
     const PHONE_CLHOE = '573024601382';
     const PAGE_URL = window.location.href.split('?')[0];
     let activeCard = null;
     let masonryInstance = null;
+    let swiperInstance = null;
+    let allProducts = [];
+    let currentGroupProducts = [];
+    let currentProductIndex = 0;
 
     const setField = (element, value) => {
         element.textContent = value || '';
         element.classList.toggle('hidden-field', !value);
     };
 
+    // --- Update panel content based on product data ---
+    const updatePanelContent = (product) => {
+        setField(panelName, product.name);
+        setField(panelPrice, product.price ? '$ ' + Number(product.price).toLocaleString('es-CO') : null);
+        setField(panelDescription, product.description);
+
+        // Update WhatsApp link
+        const productRef = product.name ? `*${product.name}*` : `el producto en esta imagen`;
+        const message = encodeURIComponent(`Hola Clhoe! Estoy viendo su catálogo en línea y me gustaría cotizar ${productRef}.\n\nPágina: ${PAGE_URL}`);
+        btnCotizar.href = `https://wa.me/${PHONE_CLHOE}?text=${message}`;
+    };
+
+    // --- Find products in the same group ---
+    const getGroupProducts = (product, allProducts) => {
+        if (!product.group) {
+            return [product];
+        }
+        return allProducts.filter(p => p.group === product.group);
+    };
+
+    // --- Re-layout Masonry helper ---
+    const relayoutMasonry = () => {
+        setTimeout(() => {
+            if (masonryInstance) {
+                masonryInstance.layout();
+            }
+        }, 50);
+    };
+
+    // --- Close panel ---
     const closePanel = () => {
         detailPanel.classList.remove('open');
         panelOverlay?.classList.remove('active');
@@ -92,19 +132,45 @@ document.addEventListener('DOMContentLoaded', () => {
         if (window.innerWidth <= 768) {
             document.body.style.overflow = '';
         }
+        
+        // Re-layout Masonry after panel closes
+        relayoutMasonry();
+        
+        // Destroy Swiper instance
+        if (swiperInstance) {
+            swiperInstance.destroy(true, true);
+            swiperInstance = null;
+        }
+        if (swiperWrapper) {
+            swiperWrapper.innerHTML = '';
+        }
+        currentGroupProducts = [];
+        currentProductIndex = 0;
     };
 
-    const openPanel = (item, card) => {
-        panelImage.src = item.image;
-        panelImage.alt = item.name || 'Producto Clhoe';
-        setField(panelName, item.name);
-        setField(panelPrice, item.price ? '$ ' + Number(item.price).toLocaleString('es-CO') : null);
-        setField(panelDescription, item.description);
+    // --- Open panel with product ---
+    const openPanel = (product, card) => {
+        // Find all products in the same group
+        currentGroupProducts = getGroupProducts(product, allProducts);
+        currentProductIndex = currentGroupProducts.findIndex(p => p.id === product.id);
+        if (currentProductIndex === -1) currentProductIndex = 0;
 
-        const productRef = item.name ? `*${item.name}*` : `el producto en esta imagen: ${item.image}`;
-        const message = encodeURIComponent(`Hola Clhoe! Estoy viendo su catálogo en línea y me gustaría cotizar ${productRef}.\n\nPágina: ${PAGE_URL}`);
-        btnCotizar.href = `https://wa.me/${PHONE_CLHOE}?text=${message}`;
+        // Build Swiper slides
+        if (swiperWrapper) {
+            swiperWrapper.innerHTML = '';
+            currentGroupProducts.forEach((p, index) => {
+                const slide = document.createElement('div');
+                slide.className = 'swiper-slide';
+                slide.dataset.index = index;
+                slide.innerHTML = `<img src="${p.image}" alt="${p.name || 'Producto'}" loading="lazy">`;
+                swiperWrapper.appendChild(slide);
+            });
+        }
 
+        // Update panel content for current product
+        updatePanelContent(product);
+
+        // Open panel
         if (activeCard) activeCard.classList.remove('active');
         activeCard = card;
         if (activeCard) activeCard.classList.add('active');
@@ -116,14 +182,60 @@ document.addEventListener('DOMContentLoaded', () => {
         if (window.innerWidth <= 768) {
             document.body.style.overflow = 'hidden';
         }
+
+        // Re-layout Masonry after panel opens
+        relayoutMasonry();
+
+        // Initialize Swiper after a brief delay
+        setTimeout(() => {
+            if (swiperInstance) {
+                swiperInstance.destroy(true, true);
+                swiperInstance = null;
+            }
+
+            const hasMultiple = currentGroupProducts.length > 1;
+
+            swiperInstance = new Swiper(swiperContainer, {
+                initialSlide: currentProductIndex,
+                loop: hasMultiple,
+                slidesPerView: 1,
+                centeredSlides: true,
+                speed: 300,
+                navigation: {
+                    nextEl: swiperNext,
+                    prevEl: swiperPrev,
+                },
+                on: {
+                    slideChange: function() {
+                        const realIndex = this.realIndex;
+                        const product = currentGroupProducts[realIndex];
+                        if (product) {
+                            updatePanelContent(product);
+                        }
+                    }
+                }
+            });
+
+            // If only one slide, hide arrows
+            if (!hasMultiple) {
+                swiperPrev.style.display = 'none';
+                swiperNext.style.display = 'none';
+            } else {
+                swiperPrev.style.display = 'flex';
+                swiperNext.style.display = 'flex';
+            }
+
+        }, 50);
     };
 
+    // --- Window resize handler ---
     window.addEventListener('resize', () => {
         if (window.innerWidth > 768 && document.body.classList.contains('panel-open')) {
             document.body.style.overflow = '';
         }
     });
 
+    // --- Event listeners ---
     panelClose?.addEventListener('click', closePanel);
     document.addEventListener('keydown', event => {
         if (event.key === 'Escape' && detailPanel.classList.contains('open')) closePanel();
@@ -144,9 +256,9 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .then(data => {
             productsGrid.replaceChildren();
-            const items = data.muebles || [];
+            allProducts = data.muebles || [];
             
-            items.forEach(item => {
+            allProducts.forEach(item => {
                 const card = document.createElement('div');
                 card.className = 'product-card';
                 
@@ -174,7 +286,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     itemSelector: '.product-card',
                     columnWidth: '.product-card',
                     percentPosition: true,
-                    gutter: 12 // ← ahora coincide con CSS
+                    gutter: 12
                 });
                 setTimeout(() => {
                     masonryInstance.layout();

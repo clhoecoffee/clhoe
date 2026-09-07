@@ -10,6 +10,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <!-- Masonry + imagesLoaded -->
     <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
     <script src="https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.min.js"></script>
@@ -123,15 +125,30 @@
 
             <!-- Panel Body -->
             <div class="panel-body">
-                <img class="panel-image" id="panelImage" src="" alt="Producto">
-                <p class="panel-price hidden-field" id="panelPrice"></p>
-                <p class="panel-description hidden-field" id="panelDescription"></p>
+                <!-- Swiper Container -->
+                <div class="swiper-container" id="swiperContainer">
+                    <div class="swiper-wrapper" id="swiperWrapper"></div>
+                    <!-- Navigation arrows with Font Awesome -->
+                    <div class="swiper-button-prev" id="swiperPrev">
+                        <i class="fa-solid fa-circle-chevron-left"></i>
+                    </div>
+                    <div class="swiper-button-next" id="swiperNext">
+                        <i class="fa-solid fa-circle-chevron-right"></i>
+                    </div>
+                </div>
+                <!-- Product Info (visible below swiper) -->
+                <div id="panelInfo">
+                    <p class="panel-price hidden-field" id="panelPrice"></p>
+                    <p class="panel-description hidden-field" id="panelDescription"></p>
+                </div>
             </div>
 
         </aside>
 
     </div><!-- /page-wrapper -->
 
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="js/script.js"></script>
 </body>
 </html>
