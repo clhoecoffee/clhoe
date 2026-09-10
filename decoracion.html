@@ -10,18 +10,11 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
-    <!-- Swiper CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-    <!-- Masonry + imagesLoaded -->
-    <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
-    <script src="https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.min.js"></script>
 </head>
 <body>
 
-    <!-- PAGE WRAPPER -->
     <div class="page-wrapper" id="pageWrapper">
-
-        <!-- MAIN CONTENT -->
         <div class="main-content">
 
             <!-- HEADER -->
@@ -54,13 +47,31 @@
                 </nav>
             </header>
 
-            <!-- SECTION HEADER & GRID -->
+            <!-- SECTION -->
             <section class="section-content">
                 <div class="section-header">
                     <h1>Decoración & Muebles</h1>
                     <p>Objetos únicos, diseño artesanal y piezas que cuentan historias</p>
                 </div>
+
+                <!-- Filters bar -->
+                <div class="filters-bar">
+                    <button class="filters-toggle" id="filtersToggle" aria-label="Abrir filtros">
+                        <i class="fas fa-sliders"></i>
+                        <span>Filtros</span>
+                        <span class="filters-count hidden" id="filtersCount">0</span>
+                    </button>
+                    <button class="filters-clear hidden" id="filtersClear" aria-label="Limpiar filtros">
+                        <i class="fas fa-times"></i>
+                        <span>Limpiar filtros</span>
+                    </button>
+                </div>
+
                 <div class="products-grid" id="productsGrid"></div>
+                <p class="products-empty hidden" id="productsEmpty">
+                    <i class="fas fa-search"></i><br>
+                    No hay productos que coincidan con los filtros seleccionados.
+                </p>
             </section>
 
             <!-- FOOTER -->
@@ -104,11 +115,25 @@
 
         </div><!-- /main-content -->
 
-        <!-- DETAIL PANEL (SIDE) -->
+        <!-- FILTERS DRAWER -->
+        <div class="filters-overlay" id="filtersOverlay"></div>
+        <aside class="filters-drawer" id="filtersDrawer">
+            <div class="filters-header">
+                <h2>Filtros</h2>
+                <button class="filters-close" id="filtersClose" aria-label="Cerrar filtros">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="filters-body" id="filtersBody"></div>
+            <div class="filters-footer">
+                <button class="filters-reset" id="filtersReset">Limpiar</button>
+                <button class="filters-apply" id="filtersApply">Aplicar</button>
+            </div>
+        </aside>
+
+        <!-- DETAIL PANEL -->
         <div class="panel-overlay" id="panelOverlay"></div>
         <aside class="detail-panel" id="detailPanel">
-
-            <!-- Panel Header -->
             <div class="panel-header">
                 <div class="panel-title-block">
                     <p class="panel-product-name hidden-field" id="panelName"></p>
@@ -123,12 +148,9 @@
                 </div>
             </div>
 
-            <!-- Panel Body -->
-            <div class="panel-body">
-                <!-- Swiper Container -->
+            <div class="panel-body" id="panelBody">
                 <div class="swiper-container" id="swiperContainer">
                     <div class="swiper-wrapper" id="swiperWrapper"></div>
-                    <!-- Navigation arrows with Font Awesome -->
                     <div class="swiper-button-prev" id="swiperPrev">
                         <i class="fa-solid fa-circle-chevron-left"></i>
                     </div>
@@ -136,18 +158,15 @@
                         <i class="fa-solid fa-circle-chevron-right"></i>
                     </div>
                 </div>
-                <!-- Product Info (visible below swiper) -->
-                <div id="panelInfo">
+                <div class="panel-glass" id="panelGlass">
                     <p class="panel-price hidden-field" id="panelPrice"></p>
                     <p class="panel-description hidden-field" id="panelDescription"></p>
                 </div>
             </div>
-
         </aside>
 
     </div><!-- /page-wrapper -->
 
-    <!-- Swiper JS -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="js/script.js"></script>
 </body>
