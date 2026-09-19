@@ -396,9 +396,9 @@ document.addEventListener('DOMContentLoaded', () => {
         let visible = 0;
         cards.forEach(card => {
             const tags = (card.dataset.tags || '').split(',').filter(Boolean);
-            // AND logic: item must have ALL selected tags
+            // OR logic: item must have ANY of the selected tags
             const matches = selectedFilters.size === 0 ||
-                Array.from(selectedFilters).every(f => tags.includes(f));
+                Array.from(selectedFilters).some(f => tags.includes(f));
             if (matches) {
                 card.classList.remove('filtered-out');
                 card.style.display = '';
