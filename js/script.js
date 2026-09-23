@@ -188,8 +188,14 @@ document.addEventListener('DOMContentLoaded', () => {
         setField(panelDescription, product.description);
 
         const ref = product.name ? `*${product.name}*` : 'un producto';
+
+        // Build an absolute URL to the product image
+        // (works locally and when deployed, since it uses the current origin)
+        const imageUrl = new URL(product.image, window.location.href).href;
+
         const msg = encodeURIComponent(
-            `Hola Clhoe! Estoy viendo su catálogo en línea y me gustaría cotizar ${ref}.\n\nPágina: ${PAGE_URL}`
+            `Hola Clhoe! Estoy viendo su catálogo en línea y me gustaría cotizar ${ref}.\n\n` +
+            `Imagen: ${imageUrl}`
         );
         btnCotizar.href = `https://wa.me/${PHONE_CLHOE}?text=${msg}`;
     };
