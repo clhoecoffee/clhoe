@@ -1,6 +1,6 @@
 // ============================================
 // COFFEE CLHOE - script.js
-// CSS Grid Masonry + Swiper + Filters
+// CSS Grid Masonry + Swiper + Filters + w/h preload
 // ============================================
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -129,6 +129,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ==========================================
     // GRID LAYOUT - calculate row spans for masonry
+    // Uses w/h from JSON when the image hasn't loaded yet,
+    // so the grid is correct from the very first paint.
     // ==========================================
     const layoutGrid = () => {
         const cards = productsGrid.querySelectorAll('.product-card:not(.filtered-out)');
@@ -137,7 +139,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const gridWidth = productsGrid.clientWidth;
         const styles = getComputedStyle(productsGrid);
         const cols = styles.gridTemplateColumns.split(' ').filter(Boolean).length;
-        const isMobile = window.innerWidth <= 768;
 
         if (!cols || !gridWidth) return;
 
@@ -145,11 +146,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
         cards.forEach(card => {
             const img = card.querySelector('.product-image');
-            const ratio = (img && img.naturalWidth && img.naturalHeight)
-                ? img.naturalWidth / img.naturalHeight
-                : 1;
+            const storedW = Number(card.dataset.w);
+            const storedH = Number(card.dataset.h);
 
-            // Span 2 columns if wide (and not on smallest mobile where cols=2 might overflow)
+            // Preferred: real image dimensions once loaded.
+            // Fallback: w/h from JSON (available immediately).
+            // Last resort: square.
+            let ratio;
+            if (img && img.naturalWidth && img.naturalHeight) {
+                ratio = img.naturalWidth / img.naturalHeight;
+            } else if (storedW && storedH) {
+                ratio = storedW / storedH;
+            } else {
+                ratio = 1;
+            }
+
             const shouldSpan = ratio >= WIDE_RATIO && cols >= 3;
             const spanCols = shouldSpan ? 2 : 1;
 
@@ -190,12 +201,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const ref = product.name ? `*${product.name}*` : 'un producto';
 
         // Build an absolute URL to the product image
-        // (works locally and when deployed, since it uses the current origin)
         const imageUrl = new URL(product.image, window.location.href).href;
 
         const msg = encodeURIComponent(
             `Hola Clhoe! Estoy viendo su catálogo en línea y me gustaría cotizar ${ref}.\n\n` +
-            `Imagen: ${imageUrl}`
+            `Imagen: ${imageUrl}\n` +
+            `Página: ${PAGE_URL}`
         );
         btnCotizar.href = `https://wa.me/${PHONE_CLHOE}?text=${msg}`;
     };
@@ -241,7 +252,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Build slides
         if (swiperWrapper) {
             swiperWrapper.innerHTML = '';
-            currentGroupProducts.forEach((p, i) => {
+            currentGroupProducts.forEach((p) => {
                 const slide = document.createElement('div');
                 slide.className = 'swiper-slide';
                 slide.innerHTML = `<img src="${p.image}" alt="${p.name || 'Producto'}" loading="lazy">`;
@@ -360,7 +371,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const openFilters = () => {
-        pendingFilters = new Set(selectedFilters); // copy current selection
+        pendingFilters = new Set(selectedFilters);
         renderFilterChips();
         filtersDrawer.classList.add('open');
         filtersOverlay.classList.add('active');
@@ -417,7 +428,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         productsEmpty.classList.toggle('hidden', visible > 0);
 
-        // Re-layout because items removed
         requestAnimationFrame(() => layoutGrid());
     };
 
@@ -465,35 +475,62 @@ document.addEventListener('DOMContentLoaded', () => {
                 card.className = 'product-card';
                 card.dataset.id = item.id;
                 card.dataset.tags = (item.tags || []).join(',');
+                if (item.w) card.dataset.w = item.w;
+                if (item.h) card.dataset.h = item.h;
 
                 const hasInfo = Boolean(item.name || item.price);
                 const priceDisplay = formatPrice(item.price);
 
                 card.innerHTML = `
                     <div class="product-image-wrapper">
-                        <img class="product-image" src="${item.image}" alt="${item.name || 'Producto'}" loading="lazy">
+                        <img class="product-image" src="${item.image}" alt="${item.name || 'Producto'}"
+                             ${item.w ? `width="${item.w}"` : ''} ${item.h ? `height="${item.h}"` : ''}
+                             loading="lazy" decoding="async">
                         <div class="product-card-info${hasInfo ? ' has-data' : ''}">
                             ${item.name ? `<p class="product-card-name">${item.name}</p>` : ''}
                             ${item.price ? `<p class="product-card-price">${priceDisplay}</p>` : ''}
                         </div>
                     </div>
                 `;
+
+                // Reserve exact aspect ratio before the image loads
+                if (item.w && item.h) {
+                    const wrapper = card.querySelector('.product-image-wrapper');
+                    if (wrapper) wrapper.style.aspectRatio = `${item.w} / ${item.h}`;
+                }
+
                 card.addEventListener('click', () => openPanel(item, card));
                 productsGrid.appendChild(card);
             });
 
-            // Wait for images to load, then layout
+            // Initial layout: uses w/h from JSON so the grid is
+            // perfectly arranged before any image downloads.
+            layoutGrid();
+            setTimeout(layoutGrid, 100);
+
+            // Optional: re-check once images finish loading, in case any
+            // JSON dimensions were wrong.
             const images = Array.from(productsGrid.querySelectorAll('.product-image'));
-            Promise.all(images.map(img => {
-                if (img.complete && img.naturalWidth) return Promise.resolve();
-                return new Promise(res => {
-                    img.addEventListener('load', res, { once: true });
-                    img.addEventListener('error', res, { once: true });
-                });
-            })).then(() => {
-                layoutGrid();
-                // Second pass to catch any late-loading images
-                setTimeout(layoutGrid, 200);
+            images.forEach(img => {
+                const onLoad = () => {
+                    const card = img.closest('.product-card');
+                    if (!card) return;
+                    const storedW = Number(card.dataset.w);
+                    const storedH = Number(card.dataset.h);
+                    const naturalRatio = img.naturalWidth / img.naturalHeight;
+                    const storedRatio = (storedW && storedH) ? storedW / storedH : null;
+
+                    // If dimensions were missing or wrong by >1%, relayout
+                    if (!storedRatio || Math.abs(naturalRatio - storedRatio) / storedRatio > 0.01) {
+                        card.dataset.w = img.naturalWidth;
+                        card.dataset.h = img.naturalHeight;
+                        card.querySelector('.product-image-wrapper').style.aspectRatio =
+                            `${img.naturalWidth} / ${img.naturalHeight}`;
+                        layoutGrid();
+                    }
+                };
+                if (img.complete && img.naturalWidth) onLoad();
+                else img.addEventListener('load', onLoad, { once: true });
             });
         })
         .catch(err => {
