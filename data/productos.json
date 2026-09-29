@@ -192,7 +192,7 @@
 { "id": 256, "image": "images/muebles/Cuadro12.webp", "w": 2984, "h": 2122, "price": 0, "tags": ["Cuadro"]},
 { "id": 257, "image": "images/muebles/Cuadro13.webp", "w": 2992, "h": 2252, "price": 0, "tags": ["Cuadro"]},
 { "id": 258, "image": "images/muebles/Cuadro14.webp", "w": 2144, "h": 2656, "price": 0, "tags": ["Cuadro"]},
-{ "id": 259, "image": "images/muebles/Cuadro15.webp", "w": 2194, "h": 2924, "price": 0, "tags": ["Cuadro"]},
+{ "id": 259, "image": "images/muebles/Cuadro15.webp", "w": 2194, "h": 2924, "price": 2200000, "tags": ["Cuadro"]},
 { "id": 260, "image": "images/muebles/Cuadro2.webp", "w": 2188, "h": 2840, "price": 0, "tags": ["Cuadro", "Religión"]},
 { "id": 261, "image": "images/muebles/Cuadro3.webp", "w": 2714, "h": 2252, "price": 0, "tags": ["Cuadro"]},
 { "id": 262, "image": "images/muebles/Cuadro4.webp", "w": 2848, "h": 2252, "price": 0, "tags": ["Cuadro"]},
