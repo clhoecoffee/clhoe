@@ -1,0 +1,111 @@
+* Accesor3
+* Atrapasu4
+* Baul7
+* Bolso3
+* Buda16
+* Busto4
+* Caballo3
+* Cama9
+* Centro26
+* Cesta20
+* Cocina4
+* Cojin28
+* Comedor13
+* Cuadro19
+* Elefante9
+* Gallo3
+* Gato16
+* Jarron25
+* Lamp10
+* Libro1
+* Maceta21
+* Mesa13
+* Miel1
+* Navidad21
+* Pajaro8
+* Pared20
+* Perchero
+* Perro6
+* Piedra11
+* Piso2
+* Portavaso5
+* Portavelas10
+* Regalo18
+* Religion47
+* Retrato6
+* Sala5
+* Silla6
+* Taza2
+* Tocador3
+* Triada6
+* Vela38
+* Wild6
+
+
+
+Esculturas	
+	Buda
+	Busto
+	Tríada
+	Decorativo
+	Escultura
+Animal	
+	Caballo
+	Elefante
+	Gato
+	Perro
+	Pájaro
+	Gallo
+	Conejo
+	Jirafa
+	Cebra
+	X
+Iluminación	
+	Lámpara
+	Vela
+	Portavela
+Contenedor	
+	Jarrón
+	Cesta
+	Baúl
+	Bolso
+	Regalo
+	X
+Mesa	
+	Centro de mesa
+	Portavasos
+	Taza
+	Utensilio
+	Miel
+	X
+Pared	
+	Cuadro
+	Portaretrato
+	Atrapasueños
+	Decoración
+Muebles	
+	Cojín
+	Silla
+	Sofá
+	Mesa
+	Lavamanos
+	Bebedero
+	Cama
+	X
+Ocasión	
+	Navidad
+	Regalo
+	San Valentín
+	Halloween
+Religioso	
+Naturaleza	
+Material	
+	Madera
+	Cerámica
+	Metal
+	Piedra
+	Vidrio
+	Textil
+	Marmolina
+	Arcilla
+	Polimero
