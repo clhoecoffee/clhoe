@@ -1,7 +1,5 @@
 {
   "muebles": [
-
-{ "id": 464, "image": "images/muebles/Cuadro17.webp", "w": 2252, "h": 2992, "price": 2000000, "tags": ["Cuadro", "Textil"] },
 { "id": 465, "image": "images/muebles/Cuadro18.webp", "w": 2252, "h": 2596, "price": 280000, "tags": ["Cuadro", "Textil"] },
 { "id": 466, "image": "images/muebles/Cuadro19.webp", "w": 2136, "h": 2374, "price": 250000, "tags": ["Cuadro", "Textil"] },
 { "id": 467, "image": "images/muebles/Elefante9.webp", "w": 2252, "h": 2410, "price": 290000, "tags": ["Tríada", "Escultura", "Elefante", "Animal", "Marmolina"] },
@@ -232,6 +230,7 @@
 { "id": 265, "image": "images/muebles/Cuadro7.webp", "w": 2048, "h": 3254, "price": 0, "tags": ["Cuadro"]},
 { "id": 266, "image": "images/muebles/Cuadro8.webp", "w": 2164, "h": 2792, "price": 0, "tags": ["Cuadro"]},
 { "id": 267, "image": "images/muebles/Cuadro9.webp", "w": 2058, "h": 2666, "price": 0, "tags": ["Cuadro", "Religión"]},
+{ "id": 464, "image": "images/muebles/Cuadro17.webp", "w": 2252, "h": 2992, "price": 2000000, "tags": ["Cuadro", "Textil"] },
 { "id": 11, "image": "images/muebles/Elefante1.webp", "w": 2980, "h": 3000, "price": 180000, "tags": ["Elefante", "Animal", "Cerámica"]},
 { "id": 106, "image": "images/muebles/Elefante2.webp", "w": 2592, "h": 1970, "price": 170000, "tags": ["Elefante", "Animal", "Cerámica"]},
 { "id": 107, "image": "images/muebles/Elefante3.webp", "w": 2002, "h": 1928, "price": 180000, "tags": ["Elefante", "Animal", "Cerámica"]},
