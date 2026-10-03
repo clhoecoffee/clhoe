@@ -32,7 +32,7 @@
 { "id": 487, "image": "images/muebles/Religion47.webp", "w": 1642, "h": 3754, "price": 150000, "tags": ["Decorativo", "Escultura", "Religión", "Marmolina"] },
 { "id": 388, "image": "images/muebles/Baul4.webp", "w": 3190, "h": 2086, "price": 140000, "tags": ["Baúl", "Contenedor", "Madera"]},
 { "id": 389, "image": "images/muebles/Baul5.webp", "w": 2252, "h": 2912, "price": 40000, "tags": ["Baúl", "Contenedor"]},
-{ "id": 390, "image": "images/muebles/Baul6.webp", "w": 2252, "h": 3016, "price": 0, "tags": ["Baúl", "Contenedor"]},
+{ "id": 390, "image": "images/muebles/Baul6.webp", "w": 2252, "h": 3016, "price": 70000, "tags": ["Baúl", "Contenedor"]},
 { "id": 391, "image": "images/muebles/Baul7.webp", "w": 2252, "h": 2692, "price": 75000, "tags": ["Baúl", "Contenedor"]},
 { "id": 392, "image": "images/muebles/Buda12.webp", "w": 2252, "h": 2768, "price": 180000, "tags": ["Buda", "Escultura", "Cerámica"]},
 { "id": 393, "image": "images/muebles/Busto4.webp", "w": 1404, "h": 3520, "price": 160000, "tags": ["Decorativo", "Escultura", "Cerámica"]},
