@@ -461,10 +461,14 @@ document.addEventListener('DOMContentLoaded', () => {
             return r.json();
         })
         .then(data => {
-            allProducts = (data.muebles || []).map((item, i) => ({
-                ...item,
-                id: item.id || `item-${i}`
-            }));
+            allProducts = (data.muebles || [])
+                .map((item, i) => ({
+                    ...item,
+                    id: item.id || `item-${i}`
+                }))
+                // Hide any product marked as sold
+                .filter(item => item.sold !== true);
+
             filteredProducts = allProducts.slice();
 
             productsGrid.replaceChildren();
